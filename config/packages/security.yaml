@@ -21,7 +21,16 @@ security:
                 login_path: app_login
                 check_path: app_login
             logout:
-                path: app_logout
+                path: app_logout           
+        
+
+            # # configure the maximum login attempts in a custom period of time
+            # login_throttling:
+            #     max_attempts: 3
+            #     interval: '15 minutes'
+            #     limiter: app.my_login_rate_limiter
+
+           
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
