@@ -17,14 +17,19 @@
         <navbar> 
              
                 <p><a href="{{ path('app_home') }}">Hjem</a></p> 
-                <p><a href="{{ path('app_temp') }}">Afdelinger</a></p>
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <p><a href="{{ path('app_show_user_info') }}">Vis bruger info</a></p>
-                <p><a href="{{ path('app_register') }}">Opret ny bruger</a></p>
-                <p><a href="{{ path('admin') }}">Admin</a></p>
+                <p><a href="{{ path('app_temp') }}">Afdelinger</a></p>
+                <p><a href="{{ path('app_show_user_info') }}">Vis bruger info</a></p>    
                 <p><a href="{{ path('app_logout') }}">Logout</a></p>
+                
+
                 {% else %}
                     <p><a href="{{ path('app_login') }}">Login</a></p>
+                {% endif %}
+
+                {% if app.user and app.user.roles('ROLE_USER') %}
+                <p><a href="{{ path('app_register') }}">Opret ny bruger</a></p>
+                <p><a href="{{ path('admin') }}">Admin</a></p>
                 {% endif %}
                
 
