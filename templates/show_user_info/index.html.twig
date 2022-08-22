@@ -12,13 +12,7 @@
     <h1>Hej {{ app.user }}</h1>
 
     <p>Brugernavn: {{ app.user.email }}</p>
-    <p>Roller: </p>
-    <ul>
-    {% for roles in app.user.roles %}
-        <li>{{ roles }}</li>
-    {% endfor %}
-</ul>
-    <p>Afdeling: {{ app.user.department }}    </p>
+    <p>Afdeling: {{ app.user.department }}</p>
     <p> </p>
     <p> </p>
 

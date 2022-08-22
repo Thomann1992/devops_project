@@ -2,17 +2,18 @@
 
 {% block body %}
 <style>
-    .test { margin: 1em auto; max-width: 800px; width: 75%; font: 18px/1.5 sans-serif; }
+    .test { margin: 1em auto; max-width: 550px; width: 75%; font: 18px/1.5 sans-serif; }
     .test { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
+    <div class="test">
     {% if error %}
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
 
 
-    <div class="test">
+    
     <form action="{{ path('app_login') }}" method="post">
         <label for="username">Email:</label>
         <input type="text" id="username" name="_username" value="{{ last_username }}"/>
@@ -24,6 +25,8 @@
         <input type="hidden" name="_target_path" value="/account"/> #}
 
         <button type="submit">login</button>
+
+         <p><a href="{{ path('app_home') }}">Glemt kodeord?</a></p>
     </form>
     </div>
 {% endblock %}
