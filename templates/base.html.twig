@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
@@ -13,8 +13,13 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body>
-                
+    <body>    
+<style>
+    .sidebar { max-width: 150px; display: block; height: 0; width: 15%; font: 15px/1.5 sans-serif}
+    .sidebar code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+    <div class="sidebar">   
         <p><a href="{{ path('app_home') }}">Hjem</a></p> 
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             <p><a href="{{ path('app_temp') }}">Afdelinger</a></p>
@@ -23,17 +28,16 @@
         {% else %}
             <p><a href="{{ path('app_login') }}">Login</a></p>
         {% endif %}
-        {% if app.user and app.user.roles('ROLE_ADMIN') %}
+        {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.roles('ROLE_ADMIN') %}
             <p><a href="{{ path('app_register') }}">Opret ny bruger</a></p>
             <p><a href="{{ path('admin') }}">Admin</a></p>
         {% endif %}
-               
-        
-        {% block body %}{% endblock %}
-    
-
         {% if app.user %}
             <p> {{app.user.email}} </p>
         {% endif %}
+            
+        </div>
+
+            {% block body %}{% endblock %}
     </body>
 </html>
