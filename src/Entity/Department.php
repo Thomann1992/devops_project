@@ -21,9 +21,13 @@ class Department
     #[ORM\OneToMany(mappedBy: 'department', targetEntity: User::class)]
     private Collection $users;
 
+    #[ORM\ManyToMany(targetEntity: Description::class, mappedBy: 'Departments')]
+    private Collection $descriptions;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->descriptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -76,5 +80,32 @@ class Department
     public function __toString()
     {
         return $this->departmentName;
+    }
+
+    /**
+     * @return Collection<int, Description>
+     */
+    public function getDescriptions(): Collection
+    {
+        return $this->descriptions;
+    }
+
+    public function addDescription(Description $description): self
+    {
+        if (!$this->descriptions->contains($description)) {
+            $this->descriptions->add($description);
+            $description->addDepartment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDescription(Description $description): self
+    {
+        if ($this->descriptions->removeElement($description)) {
+            $description->removeDepartment($this);
+        }
+
+        return $this;
     }
 }
