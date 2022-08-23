@@ -33,7 +33,8 @@ class DepartmentCrudController extends AbstractCrudController
         return [
             TextField::new('departmentName'),
             // CollectionField::new('users')
-            // ArrayField::new('descriptions')
+            AssociationField::new('descriptions')
+                ->onlyOnIndex()
             // CollectionField::new('descriptions')
         ];
     }

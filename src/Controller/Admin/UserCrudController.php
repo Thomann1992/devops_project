@@ -46,6 +46,7 @@ class UserCrudController extends AbstractCrudController
                 ->setChoices(array_combine($roles, $roles))
                 ->allowMultipleChoices(),
             // ->renderExpanded();
+
             TextField::new('password')
                 ->onlyWhenCreating()
 

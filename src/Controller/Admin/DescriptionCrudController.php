@@ -37,15 +37,22 @@ class DescriptionCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        $departments = ['ham', 'cheese'];
         return [
             // Field::new('id'),
             TextField::new('name'),
             TextareaField::new('description'),
             UrlField::new('URL'),
             TextField::new('onePassword', '1password'),
-            ArrayField::new('departments')
-
+            // ArrayField::new('departments')
+            AssociationField::new('Departments')
+                ->autocomplete()
+                ->formatValue(function ($value, $entity) {
+                    $str = $entity->getDepartments()[0];
+                    for ($i = 1; $i < $entity->getDepartments()->count(); $i++) {
+                        $str = $str . ", " . $entity->getDepartments()[$i];
+                    }
+                    return $str;
+                })
             // ->setChoices(array_combine($departments, $departments))
             // ->allowMultipleChoices()
         ];
