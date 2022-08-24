@@ -1,5 +1,6 @@
 App\Entity\User:
-    user_{1..10}:
-        email: <email()>
+    user_{1..50}:
+        email (unique): <email()>
         password: <password(40,255)>
-        
+        department: '@department*'
+        roles: '<numberBetween(0, 1)>x <randomElement([ROLE_ADMIN, ROLE_SUPER_ADMIN, ROLE_MODERATOR])>'

@@ -1,7 +1,7 @@
 App\Entity\Description:
-    description{1..10}:
-        name: <name()>
-        description: <name()>
+    description{1..100}:
+        name (unique): <name()>
+        description: <text()>
         url: <URL()>
         onePassword: <password(40, 255)>
-        department: '@department_*'
+        departments: '<numberBetween(0, 5)>x @department*'

@@ -45,11 +45,18 @@ class UserCrudController extends AbstractCrudController
             ChoiceField::new('roles')
                 ->setChoices(array_combine($roles, $roles))
                 ->allowMultipleChoices(),
-            // ->renderExpanded();
-
             TextField::new('password')
-                ->onlyWhenCreating()
+            // ->onlyWhenCreating(),
+
 
         ];
     }
 }
+// if ($form->isSubmitted() && $form->isValid()) {
+//     // encode the plain password
+//     $user->setPassword(
+//         $userPasswordHasher->hashPassword(
+//             $user,
+//             $form->get('plainPassword')->getData()
+//         )
+//     );
