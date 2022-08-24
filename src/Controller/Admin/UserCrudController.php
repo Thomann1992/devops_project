@@ -20,6 +20,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 use Symfony\Component\DomCrawler\Field\ChoiceFormField;
 use Symfony\Component\DomCrawler\Field\InputFormField;
 use Symfony\Component\DomCrawler\Field\TextareaFormField;
+use Symfony\Component\PasswordHasher\Hasher\PlaintextPasswordHasher;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -46,6 +48,10 @@ class UserCrudController extends AbstractCrudController
                 ->setChoices(array_combine($roles, $roles))
                 ->allowMultipleChoices(),
             TextField::new('password')
+            // ->formatValue(static function ($value, User $user) {
+            //     $userPasswordHasher = new UserPasswordHasher();
+            //     return $user->setPassword($userPasswordHasher($value, PASSWORD_BCRYPT));
+            // })
             // ->onlyWhenCreating(),
 
 
