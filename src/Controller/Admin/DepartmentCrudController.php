@@ -12,6 +12,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\LocaleField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -27,10 +28,11 @@ class DepartmentCrudController extends AbstractCrudController
         return Department::class;
     }
 
-
     public function configureFields(string $pageName): iterable
     {
         return [
+            IdField::new('id')
+                ->onlyOnDetail(),
             TextField::new('departmentName'),
             AssociationField::new('users'),
             AssociationField::new('descriptions')

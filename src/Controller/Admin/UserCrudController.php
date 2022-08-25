@@ -20,8 +20,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 use Symfony\Component\DomCrawler\Field\ChoiceFormField;
 use Symfony\Component\DomCrawler\Field\InputFormField;
 use Symfony\Component\DomCrawler\Field\TextareaFormField;
-use Symfony\Component\PasswordHasher\Hasher\PlaintextPasswordHasher;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -37,32 +38,27 @@ class UserCrudController extends AbstractCrudController
             ->setEntityLabelInSingular('User');
     }
 
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions
+            ->setPermission(Action::NEW, 'ROLE_ADMIN');
+    }
+
+
+
     public function configureFields(string $pageName): iterable
     {
         $roles = ['ROLE_SUPER_ADMIN', 'ROLE_ADMIN', 'ROLE_MODERATOR', 'ROLE_USER'];
         return [
-            // yield Field::new('id');
+            IdField::new('id')
+                ->onlyOnDetail(),
             EmailField::new('email'),
             AssociationField::new('department'),
             ChoiceField::new('roles')
                 ->setChoices(array_combine($roles, $roles))
                 ->allowMultipleChoices(),
             TextField::new('password')
-            // ->formatValue(static function ($value, User $user) {
-            //     $userPasswordHasher = new UserPasswordHasher();
-            //     return $user->setPassword($userPasswordHasher($value, PASSWORD_BCRYPT));
-            // })
             // ->onlyWhenCreating(),
-
-
         ];
     }
 }
-// if ($form->isSubmitted() && $form->isValid()) {
-//     // encode the plain password
-//     $user->setPassword(
-//         $userPasswordHasher->hashPassword(
-//             $user,
-//             $form->get('plainPassword')->getData()
-//         )
-//     );

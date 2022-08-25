@@ -20,6 +20,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 use Symfony\Component\DomCrawler\Field\ChoiceFormField;
 use Symfony\Component\DomCrawler\Field\InputFormField;
 use Symfony\Component\DomCrawler\Field\TextareaFormField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 
 class DescriptionCrudController extends AbstractCrudController
 {
@@ -34,16 +37,21 @@ class DescriptionCrudController extends AbstractCrudController
             ->setEntityLabelInSingular('Description');
     }
 
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions
+            ->setPermission(Action::NEW, 'ROLE_ADMIN');
+    }
 
     public function configureFields(string $pageName): iterable
     {
         return [
-            // Field::new('id'),
+            IdField::new('id')
+                ->onlyOnDetail(),
             TextField::new('name'),
             TextareaField::new('description'),
             UrlField::new('URL'),
             TextField::new('onePassword', '1password'),
-            // ArrayField::new('departments')
             AssociationField::new('Departments')
                 ->autocomplete()
                 ->formatValue(function ($value, $entity) {
@@ -54,18 +62,6 @@ class DescriptionCrudController extends AbstractCrudController
                     return $str;
                 })
 
-            // ->setChoices(array_combine($departments, $departments))
-            // ->allowMultipleChoices()
         ];
     }
 }
-
-//    
-
-//     public function configureFields(string $pageName): iterable
-//     {
-//         // yield Field::new('id');
-//         yield EmailField::new('email');
-//         yield AssociationField::new('department');
-//         yield CollectionField::new('roles');
-//     }

@@ -12,7 +12,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -28,6 +31,7 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
+            ->renderSidebarMinimized()
             ->setTitle('Devops Project');
     }
 
@@ -35,21 +39,23 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linktoRoute('Back to the website', 'fas fa-home', 'app_home');
 
-        yield MenuItem::subMenu('User-stuff', 'fa fa-user')
-            ->setSubItems([
-                MenuItem::linkToCrud('Users', 'fas fa-user', User::class),
-                MenuItem::linkToCrud('Departments', 'fas fa-users', Department::class),
-                MenuItem::linkToCrud('Descriptions', 'fas fa-comment', Description::class),
-            ]);
-        yield MenuItem::subMenu('Admin-stuff', 'fa fa-hammer')
-            ->setSubItems([
-                MenuItem::linkToCrud('Users', 'fas fa-user', User::class),
-                MenuItem::linkToCrud('Departments', 'fas fa-users', Department::class),
-                MenuItem::linkToCrud('Descriptions', 'fas fa-comment', Description::class),
-            ]);
-
+        // yield MenuItem::subMenu('User-stuff', 'fa fa-user')
+        //     ->setSubItems([
+        yield MenuItem::linkToCrud('Users', 'fas fa-user', User::class);
+        yield MenuItem::linkToCrud('Departments', 'fas fa-users', Department::class);
+        yield MenuItem::linkToCrud('Descriptions', 'fas fa-comment', Description::class);
+        // ]);
         yield MenuItem::linkToLogout('Logout', 'fas fa-door-open');
+    }
 
-        yield MenuItem::linkToRoute('Test', 'fa fa-chart-bar', 'app_login');
+    public function configureActions(): Actions
+    {
+        return parent::configureActions()
+            ->add(Crud::PAGE_INDEX, Action::DETAIL);
+    }
+
+    public function configureAssets(): Assets
+    {
+        return parent::configureAssets();
     }
 }
