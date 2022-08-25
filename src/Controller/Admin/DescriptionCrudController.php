@@ -53,6 +53,7 @@ class DescriptionCrudController extends AbstractCrudController
                     }
                     return $str;
                 })
+
             // ->setChoices(array_combine($departments, $departments))
             // ->allowMultipleChoices()
         ];

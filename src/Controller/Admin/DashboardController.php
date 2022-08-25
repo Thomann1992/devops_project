@@ -39,6 +39,7 @@ class DashboardController extends AbstractDashboardController
             ->setSubItems([
                 MenuItem::linkToCrud('Users', 'fas fa-user', User::class),
                 MenuItem::linkToCrud('Departments', 'fas fa-users', Department::class),
+                MenuItem::linkToCrud('Descriptions', 'fas fa-comment', Description::class),
             ]);
         yield MenuItem::subMenu('Admin-stuff', 'fa fa-hammer')
             ->setSubItems([
@@ -46,6 +47,9 @@ class DashboardController extends AbstractDashboardController
                 MenuItem::linkToCrud('Departments', 'fas fa-users', Department::class),
                 MenuItem::linkToCrud('Descriptions', 'fas fa-comment', Description::class),
             ]);
+
         yield MenuItem::linkToLogout('Logout', 'fas fa-door-open');
+
+        yield MenuItem::linkToRoute('Test', 'fa fa-chart-bar', 'app_login');
     }
 }

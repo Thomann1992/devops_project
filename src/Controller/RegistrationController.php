@@ -14,8 +14,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RegistrationController extends AbstractController
 {
-}
-/*
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
@@ -44,4 +42,3 @@ class RegistrationController extends AbstractController
         ]);
     }
 }
-*/
