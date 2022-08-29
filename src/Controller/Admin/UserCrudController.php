@@ -13,6 +13,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+
 
 class UserCrudController extends AbstractCrudController
 {
@@ -44,11 +46,15 @@ class UserCrudController extends AbstractCrudController
             AssociationField::new('department'),
             ChoiceField::new('roles')
                 ->setChoices(array_combine($roles, $roles))
+
                 ->allowMultipleChoices()
                 ->setSortable(false),
             Field::new('password')
                 ->setFormType(PasswordType::class)
                 ->onlyWhenCreating(),
+            // ->allowMultipleChoices(),
+            TextField::new('password')
+            // ->onlyWhenCreating(),
         ];
     }
 }
