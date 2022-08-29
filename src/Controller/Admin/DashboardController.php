@@ -16,9 +16,20 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
+use App\Repository\UserRepository;
 
 class DashboardController extends AbstractDashboardController
 {
+
+    private UserRepository $questionRepository;
+
+
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
+
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
@@ -26,6 +37,7 @@ class DashboardController extends AbstractDashboardController
         $url = $routeBuilder->setController(UserCrudController::class)->generateUrl();
 
         return $this->redirect($url);
+        //return $this->render('admin/index.html.twig');
     }
 
     public function configureDashboard(): Dashboard
@@ -37,7 +49,7 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linktoRoute('Back to the website', 'fas fa-home', 'app_home');
+        // yield MenuItem::linktoRoute('Back to the website', 'fas fa-home', 'app_home');
 
         // yield MenuItem::subMenu('User-stuff', 'fa fa-user')
         //     ->setSubItems([

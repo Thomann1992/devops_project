@@ -20,6 +20,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 use Symfony\Component\DomCrawler\Field\ChoiceFormField;
 use Symfony\Component\DomCrawler\Field\InputFormField;
 use Symfony\Component\DomCrawler\Field\TextareaFormField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 
 class DepartmentCrudController extends AbstractCrudController
 {
@@ -28,16 +29,25 @@ class DepartmentCrudController extends AbstractCrudController
         return Department::class;
     }
 
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setEntityLabelInSingular('Department')
+            ->showEntityActionsInlined();
+    }
+
     public function configureFields(string $pageName): iterable
     {
         return [
             IdField::new('id')
                 ->onlyOnDetail(),
             TextField::new('departmentName'),
-            AssociationField::new('users'),
+            AssociationField::new('users')
+                ->setLabel('Total users')
+                ->setFormTypeOption('by_reference', false),
             AssociationField::new('descriptions')
-                ->onlyOnIndex()
-            // CollectionField::new('descriptions')
+                ->setLabel('Total descriptions')
+                ->setFormTypeOption('by_reference', false)
         ];
     }
 }

@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\DescriptionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DescriptionRepository::class)]
@@ -29,6 +30,15 @@ class Description
 
     #[ORM\ManyToMany(targetEntity: Department::class, inversedBy: 'descriptions')]
     private Collection $Departments;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $dateCreated = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $additionalInfo = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $lastModified = null;
 
     public function __construct()
     {
@@ -115,5 +125,41 @@ class Description
     public function __toString()
     {
         return $this->Name;
+    }
+
+    public function getDateCreated(): ?\DateTimeInterface
+    {
+        return $this->dateCreated;
+    }
+
+    public function setDateCreated(\DateTimeInterface $dateCreated): self
+    {
+        $this->dateCreated = $dateCreated;
+
+        return $this;
+    }
+
+    public function getAdditionalInfo(): ?string
+    {
+        return $this->additionalInfo;
+    }
+
+    public function setAdditionalInfo(?string $additionalInfo): self
+    {
+        $this->additionalInfo = $additionalInfo;
+
+        return $this;
+    }
+
+    public function getLastModified(): ?\DateTimeInterface
+    {
+        return $this->lastModified;
+    }
+
+    public function setLastModified(?\DateTimeInterface $lastModified): self
+    {
+        $this->lastModified = $lastModified;
+
+        return $this;
     }
 }

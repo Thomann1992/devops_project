@@ -3,5 +3,8 @@ App\Entity\Description:
         name (unique): <name()>
         description: <text()>
         url: <URL()>
-        onePassword: <password(40, 255)>
+        onePassword: <URL()>
         departments: '<numberBetween(0, 5)>x @department*'
+        dateCreated: <dateTime()>
+        additionalInfo: <text()>
+        lastModified: <dateTime()>
