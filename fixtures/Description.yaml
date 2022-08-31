@@ -5,6 +5,4 @@ App\Entity\Description:
         url: <URL()>
         onePassword: <URL()>
         departments: '<numberBetween(0, 5)>x @department*'
-        dateCreated: <dateTime()>
         additionalInfo: <text()>
-        lastModified: <dateTime()>

@@ -7,10 +7,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use phpDocumentor\Reflection\Types\Nullable;
 
 #[ORM\Entity(repositoryClass: DescriptionRepository::class)]
 class Description
 {
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -31,14 +35,38 @@ class Description
     #[ORM\ManyToMany(targetEntity: Department::class, inversedBy: 'descriptions')]
     private Collection $Departments;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $dateCreated = null;
+    // // #[Gedmo\Timestampable(on: 'create')]
+    // #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    // private ?\DateTimeInterface $dateCreated = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $additionalInfo = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $lastModified = null;
+    // #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    // //#[Gedmo\Timestampable(on: 'change')]
+    // private $lastModified = null;
+
+    /**
+     * @var \DateTime
+     */
+    #[Gedmo\Timestampable(on: 'create')]
+    #[ORM\Column(name: 'created', type: Types::DATE_MUTABLE)]
+    private $created;
+
+    /**
+     * @var \DateTime
+     */
+    #[ORM\Column(name: 'updated', type: Types::DATETIME_MUTABLE)]
+    #[Gedmo\Timestampable]
+    private $updated;
+
+    /**
+     * @var \DateTime
+     */
+    #[ORM\Column(name: 'content_changed', type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Gedmo\Timestampable(on: 'change', field: ['title', 'body'])]
+    private $contentChanged;
+
 
     public function __construct()
     {
@@ -127,17 +155,17 @@ class Description
         return $this->Name;
     }
 
-    public function getDateCreated(): ?\DateTimeInterface
-    {
-        return $this->dateCreated;
-    }
+    // public function getDateCreated(): ?\DateTimeInterface
+    // {
+    //     return $this->dateCreated;
+    // }
 
-    public function setDateCreated(\DateTimeInterface $dateCreated): self
-    {
-        $this->dateCreated = $dateCreated;
+    // public function setDateCreated(\DateTimeInterface $dateCreated): self
+    // {
+    //     $this->dateCreated = $dateCreated;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function getAdditionalInfo(): ?string
     {
@@ -151,15 +179,30 @@ class Description
         return $this;
     }
 
-    public function getLastModified(): ?\DateTimeInterface
+    // public function getLastModified(): ?\DateTimeInterface
+    // {
+    //     return $this->lastModified;
+    // }
+
+    // public function setLastModified(?\DateTimeInterface $lastModified): self
+    // {
+    //     $this->lastModified = $lastModified;
+
+    //     return $this;
+    // }
+
+    public function getCreated()
     {
-        return $this->lastModified;
+        return $this->created;
     }
 
-    public function setLastModified(?\DateTimeInterface $lastModified): self
+    public function getUpdated()
     {
-        $this->lastModified = $lastModified;
+        return $this->updated;
+    }
 
-        return $this;
+    public function getContentChanged()
+    {
+        return $this->contentChanged;
     }
 }

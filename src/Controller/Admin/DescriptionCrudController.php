@@ -11,6 +11,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 
 class DescriptionCrudController extends AbstractCrudController
@@ -41,7 +42,7 @@ class DescriptionCrudController extends AbstractCrudController
             TextField::new('name'),
             TextareaField::new('description'),
             UrlField::new('URL'),
-            TextField::new('onePassword', '1password'),
+            UrlField::new('onePassword', '1password'),
             AssociationField::new('Departments')
                 ->autocomplete()
                 ->formatValue(function ($value, $entity) {
@@ -50,7 +51,14 @@ class DescriptionCrudController extends AbstractCrudController
                         $str = $str . ", " . $entity->getDepartments()[$i];
                     }
                     return $str;
-                })
+                }),
+            TextareaField::new('additionalInfo'),
+            DateField::new('created')
+                ->onlyOnIndex(),
+            DateField::new('updated')
+                ->onlyOnIndex(),
+            DateField::new('contentChanged')
+                ->onlyOnDetail()
         ];
     }
 }
