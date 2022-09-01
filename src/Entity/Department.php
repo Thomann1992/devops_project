@@ -18,11 +18,11 @@ class Department
     #[ORM\Column(length: 255)]
     private ?string $departmentName = null;
 
-    #[ORM\OneToMany(mappedBy: 'department', targetEntity: User::class)]
-    private Collection $users;
-
     #[ORM\ManyToMany(targetEntity: Description::class, mappedBy: 'Departments')]
     private Collection $descriptions;
+
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'Departments')]
+    private Collection $users;
 
     public function __construct()
     {
@@ -43,36 +43,6 @@ class Department
     public function setDepartmentName(string $departmentName): self
     {
         $this->departmentName = $departmentName;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, User>
-     */
-    public function getUsers(): Collection
-    {
-        return $this->users;
-    }
-
-    public function addUser(User $user): self
-    {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
-            $user->setDepartment($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->users->removeElement($user)) {
-            // set the owning side to null (unless already changed)
-            if ($user->getDepartment() === $this) {
-                $user->setDepartment(null);
-            }
-        }
 
         return $this;
     }
@@ -104,6 +74,33 @@ class Department
     {
         if ($this->descriptions->removeElement($description)) {
             $description->removeDepartment($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->addDepartment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeDepartment($this);
         }
 
         return $this;

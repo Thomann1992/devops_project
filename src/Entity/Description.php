@@ -8,8 +8,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
-use phpDocumentor\Reflection\Types\Nullable;
 
 #[ORM\Entity(repositoryClass: DescriptionRepository::class)]
 class Description
@@ -35,16 +33,8 @@ class Description
     #[ORM\ManyToMany(targetEntity: Department::class, inversedBy: 'descriptions')]
     private Collection $Departments;
 
-    // // #[Gedmo\Timestampable(on: 'create')]
-    // #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    // private ?\DateTimeInterface $dateCreated = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $additionalInfo = null;
-
-    // #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    // //#[Gedmo\Timestampable(on: 'change')]
-    // private $lastModified = null;
 
     /**
      * @var \DateTime
@@ -155,18 +145,6 @@ class Description
         return $this->Name;
     }
 
-    // public function getDateCreated(): ?\DateTimeInterface
-    // {
-    //     return $this->dateCreated;
-    // }
-
-    // public function setDateCreated(\DateTimeInterface $dateCreated): self
-    // {
-    //     $this->dateCreated = $dateCreated;
-
-    //     return $this;
-    // }
-
     public function getAdditionalInfo(): ?string
     {
         return $this->additionalInfo;
@@ -178,18 +156,6 @@ class Description
 
         return $this;
     }
-
-    // public function getLastModified(): ?\DateTimeInterface
-    // {
-    //     return $this->lastModified;
-    // }
-
-    // public function setLastModified(?\DateTimeInterface $lastModified): self
-    // {
-    //     $this->lastModified = $lastModified;
-
-    //     return $this;
-    // }
 
     public function getCreated()
     {

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -31,8 +33,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\ManyToOne(inversedBy: 'users')]
-    private ?Department $department = null;
+    #[ORM\ManyToMany(targetEntity: Department::class, inversedBy: 'users')]
+    private Collection $Departments;
+
+    public function __construct()
+    {
+        $this->Departments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -104,20 +111,32 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getDepartment(): ?Department
+    public function __toString()
     {
-        return $this->department;
+        return $this->email;
     }
 
-    public function setDepartment(?Department $department): self
+    /**
+     * @return Collection<int, Department>
+     */
+    public function getDepartments(): Collection
     {
-        $this->department = $department;
+        return $this->Departments;
+    }
+
+    public function addDepartment(Department $department): self
+    {
+        if (!$this->Departments->contains($department)) {
+            $this->Departments->add($department);
+        }
 
         return $this;
     }
 
-    public function __toString()
+    public function removeDepartment(Department $department): self
     {
-        return $this->email;
+        $this->Departments->removeElement($department);
+
+        return $this;
     }
 }

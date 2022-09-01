@@ -8,13 +8,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-
 
 class UserCrudController extends AbstractCrudController
 {
@@ -43,18 +41,40 @@ class UserCrudController extends AbstractCrudController
             IdField::new('id')
                 ->onlyOnDetail(),
             EmailField::new('email'),
-            AssociationField::new('department'),
+            AssociationField::new('Departments')
+                ->formatValue(function ($value, $entity) {
+                    $str = $entity->getDepartments()[0];
+                    for ($i = 1; $i < $entity->getDepartments()->count(); $i++) {
+                        $str = $str . ", " . $entity->getDepartments()[$i];
+                    }
+                    return $str;
+                }),
             ChoiceField::new('roles')
                 ->setChoices(array_combine($roles, $roles))
-
                 ->allowMultipleChoices()
                 ->setSortable(false),
-            Field::new('password')
-                ->setFormType(PasswordType::class)
-                ->onlyWhenCreating(),
-            // ->allowMultipleChoices(),
             TextField::new('password')
             // ->onlyWhenCreating(),
         ];
+    }
+
+    public function configureFilters(Filters $filters): Filters
+    {
+        return parent::configureFilters($filters)
+
+            ->add('email');
+    }
+
+    protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
+    {
+        /** @var QueryBuilder $result  */
+        $result = $this->createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
+
+        # Getting data User wise
+        $result->leftJoin('entity.projectRequirementsHasUserUser', 'user')
+            ->andWhere('user.id = :user')
+            ->setParameter('user', $this->getUser());
+
+        return $result;
     }
 }

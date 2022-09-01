@@ -4,23 +4,12 @@ namespace App\Controller\Admin;
 
 use App\Entity\Department;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\LocaleField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
-use Symfony\Component\DomCrawler\Field\ChoiceFormField;
-use Symfony\Component\DomCrawler\Field\InputFormField;
-use Symfony\Component\DomCrawler\Field\TextareaFormField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use Doctrine\ORM\QueryBuilder;
+
 
 class DepartmentCrudController extends AbstractCrudController
 {
@@ -50,4 +39,33 @@ class DepartmentCrudController extends AbstractCrudController
                 ->setFormTypeOption('by_reference', false)
         ];
     }
+
+    protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
+    {
+        /**
+         * @var QueryBuilder $qb
+         */
+        $qb = $this->createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
+
+        if (method_exists($entityClass, 'getUser')) {
+            $qb->andWhere('entity.user = :user');
+            $qb->setParameter('user', $this->getUser());
+        }
+        return $qb;
+        echo ('ham');
+    }
+
+
+    // protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
+    // {
+    //     /** @var QueryBuilder $result  */
+    //     $result = $this->createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
+
+    //     # Getting data User wise
+    //     $result->leftJoin('entity.projectRequirementsHasUserUser', 'user')
+    //         ->andWhere('user.id = :user')
+    //         ->setParameter('user', $this->getUser());
+
+    //     return $result;
+    // }
 }
