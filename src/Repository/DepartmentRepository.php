@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Department;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\User;
 
 /**
  * @extends ServiceEntityRepository<Department>
@@ -54,12 +55,30 @@ class DepartmentRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    public function findOneBySomeField($value): ?Department
+    // public function findOneBySomeField($value): ?Department
+    // {
+    //     return $this->createQueryBuilder('d')
+    //         ->andWhere('d.exampleField = :val')
+    //         ->setParameter('val', $value)
+    //         ->getQuery()
+    //         ->getOneOrNullResult();
+    // }
+
+    public function findOneBySomeField(User $user): ?Department
     {
-        return $this->createQueryBuilder('d')
-            ->andWhere('d.exampleField = :val')
-            ->setParameter('val', $value)
+        $userDepartments = $user->getDepartments();
+
+        $qb = $this->createQueryBuilder('p');
+
+        $qb
+            ->innerJoin('App\Entity\User', 'u', 'WITH', 'u = p.user')
+            ->where('u.userId = :val')
+            ->setParameter('val', $user->getId())
             ->getQuery()
             ->getOneOrNullResult();
+
+        // dump($qb->getQuery()->getResult());
+
+        return $qb->getQuery()->getResult();
     }
 }

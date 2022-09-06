@@ -2,7 +2,6 @@
 
 namespace App\Controller\Admin;
 
-use App\Controller\Admin\Filter\UserFilter as FilterUserFilter;
 use App\Entity\Description;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -14,7 +13,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use Doctrine\ORM\QueryBuilder;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
+use LDAP\Result;
+use Symfony\Component\Validator\Constraints\Collection;
 
 class DescriptionCrudController extends AbstractCrudController
 {
@@ -39,6 +43,7 @@ class DescriptionCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
+
             IdField::new('id')
                 ->onlyOnDetail(),
             TextField::new('name'),
@@ -64,9 +69,29 @@ class DescriptionCrudController extends AbstractCrudController
         ];
     }
 
-    // public function configureFilters(Filters $filters): Filters
-    // {
-    //     return $filters->add(FilterUserFilter::new('user'));
-    //     // return $filter->
-    // }
+    public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
+    {
+        $isAdminUser = $this->isGranted('ROLE_ADMIN');
+        $defaultQueryBuilder = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
+
+        $user = $this->getUser();
+        $userDepartments = $user->getDepartments();
+
+        $descriptions[] = 305;
+        array_push($descriptions, 305);
+
+
+        foreach ($userDepartments as $result) {
+            array_push($descriptions, $result);
+        }
+
+        if (!$isAdminUser) {
+            foreach ($descriptions as $result) {
+                $defaultQueryBuilder
+                    ->where('entity.id = :descriptionId')
+                    ->setParameter('descriptionId', $result);
+            }
+        }
+        return $defaultQueryBuilder;
+    }
 }

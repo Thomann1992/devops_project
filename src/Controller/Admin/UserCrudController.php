@@ -13,6 +13,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
+use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -48,13 +54,14 @@ class UserCrudController extends AbstractCrudController
                         $str = $str . ", " . $entity->getDepartments()[$i];
                     }
                     return $str;
-                }),
+                })
+                ->setTextAlign('left'),
             ChoiceField::new('roles')
                 ->setChoices(array_combine($roles, $roles))
                 ->allowMultipleChoices()
                 ->setSortable(false),
             TextField::new('password')
-            // ->onlyWhenCreating(),
+                ->onlyWhenCreating(),
         ];
     }
 
@@ -65,16 +72,30 @@ class UserCrudController extends AbstractCrudController
             ->add('email');
     }
 
-    protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
+    public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
-        /** @var QueryBuilder $result  */
-        $result = $this->createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
-
-        # Getting data User wise
-        $result->leftJoin('entity.projectRequirementsHasUserUser', 'user')
-            ->andWhere('user.id = :user')
-            ->setParameter('user', $this->getUser());
-
-        return $result;
+        // $user = $this->getUser();
+        $qb = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $qb->where('entity.id = :id');
+            $qb->setParameter('id', $this->getUser()->getId());
+        }
+        return $qb;
     }
+
+    // protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
+    // {
+    //     $isAdminUser = $this->isGranted('ROLE_ADMIN');
+
+    //     /**
+    //      * @var QueryBuilder $qb
+    //      */
+    //     $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
+
+    //     if (!$isAdminUser) {
+    //         $qb->join('entity.userId', 'entity')->where('entity.id = :userId')
+    //             ->setParameter('userId', $this->getUser()->getId());
+    //     }
+    //     return $qb;
+    // }
 }
