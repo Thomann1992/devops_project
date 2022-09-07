@@ -17,7 +17,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
-use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
 class UserCrudController extends AbstractCrudController
@@ -37,12 +36,12 @@ class UserCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         return $actions
-            ->setPermission(Action::NEW, 'ROLE_ADMIN');
+            ->setPermission(Action::EDIT, 'ROLE_ADMIN');
     }
 
     public function configureFields(string $pageName): iterable
     {
-        $roles = ['ROLE_SUPER_ADMIN', 'ROLE_ADMIN', 'ROLE_MODERATOR', 'ROLE_USER'];
+        $roles = ['ROLE_ADMIN', 'ROLE_MODERATOR', 'ROLE_USER'];
         return [
             IdField::new('id')
                 ->onlyOnDetail(),
