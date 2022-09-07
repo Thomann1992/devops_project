@@ -26,30 +26,36 @@ To get a local copy up and running follow these steps.
 1. Clone the repo
 
    ```shell
-   git clone git@github.com:Thomann1992/devops_project.git
+   git clone git@github.com:Thomann1992/devops_project.git devops_projekt
    ```
+   
+2. Enter the newly created project directory
 
-2. Start docker containers
+   ```shell
+   cd devops_projekt
+   ```
+   
+3. Start docker containers
 
    ```shell
    docker-compose up -d
    ```
 
-3. Run database migrations
+4. Run database migrations
 
    ```sh
    docker-compose exec phpfpm bin/console doctrine:migrations:migrate --no-interaction
    ```
 
-4. Run database migrations
+5. Load fixtures
 
    ```sh
    php bin/console hautelook:fixtures:load
    ```
 
-5. ????
+6. ????
 
-6. Profit
+7. Profit
 
 You should now be able to browse to the application
 
