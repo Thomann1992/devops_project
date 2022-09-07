@@ -18,8 +18,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-use LDAP\Result;
-use Symfony\Component\Validator\Constraints\Collection;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 
 class DescriptionCrudController extends AbstractCrudController
 {
@@ -35,22 +34,18 @@ class DescriptionCrudController extends AbstractCrudController
             ->showEntityActionsInlined();
     }
 
-    public function configureActions(Actions $actions): Actions
-    {
-        return $actions
-            ->setPermission(Action::NEW, 'ROLE_ADMIN');
-    }
-
     public function configureFields(string $pageName): iterable
     {
         return [
 
             IdField::new('id')
                 ->onlyOnDetail(),
-            TextField::new('name'),
+            TextField::new('Name')
+                ->setSortable(true),
             TextareaField::new('description'),
             UrlField::new('URL'),
-            UrlField::new('onePassword', '1password'),
+            UrlField::new('OnePassword', '1password')
+                ->setSortable(true),
             AssociationField::new('Departments')
                 ->autocomplete()
                 ->formatValue(function ($value, $entity) {
@@ -60,12 +55,25 @@ class DescriptionCrudController extends AbstractCrudController
                     }
                     return $str;
                 }),
-            TextareaField::new('additionalInfo'),
+            TextareaField::new('additionalInfo')
+                ->setSortable(false),
             DateField::new('created')
                 ->hideOnForm(),
             DateField::new('updated')
                 ->hideOnForm(),
         ];
+    }
+
+    public function configureFilters(Filters $filters): Filters
+    {
+        return parent::configureFilters($filters)
+            ->add('id')
+            ->add('Name')
+            ->add('URL')
+            ->add('OnePassword')
+            ->add('Departments')
+            ->add('created')
+            ->add('updated');
     }
 
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
@@ -84,7 +92,7 @@ class DescriptionCrudController extends AbstractCrudController
 
         if (!$this->isGranted('ROLE_ADMIN')) {
             $qb
-                ->where('entity.id in (:descriptionIds)')
+                ->andWhere('entity.id in (:descriptionIds)')
                 ->setParameter('descriptionIds', $descriptions);
         }
         return $qb;

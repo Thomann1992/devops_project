@@ -26,15 +26,15 @@
             {# <p><a href="{{ path('app_show_user_info') }}">Vis bruger info</a></p>     #}
             <p><a href="{{ path('app_logout') }}">Logout</a></p>
         {% else %}
-            <p><a href="{{ path('app_login') }}">Login</a></p>
+            <p><a href="{{ path('admin') }}">Login</a></p>
         {% endif %}
         {# {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.roles('ROLE_ADMIN') %} #}
             <p><a href="{{ path('app_register') }}">Opret ny bruger</a></p>
-            <p><a href="{{ path('admin') }}">Admin</a></p>
+            {# <p><a href="{{ path('admin') }}">Admin</a></p> #}
         {# {% endif %} #}
-        {% if app.user %}
+        {# {% if app.user %}
             <p> {{app.user.email}} </p>
-        {% endif %}
+        {% endif %} #}
             
         </div>
 

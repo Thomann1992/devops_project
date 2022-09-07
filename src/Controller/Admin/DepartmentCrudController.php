@@ -13,10 +13,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
-use App\Repository\DepartmentRepository;
-use Doctrine\ORM\Mapping\Id;
-
-use function Symfony\Component\DependencyInjection\Loader\Configurator\expr;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 
 class DepartmentCrudController extends AbstractCrudController
 {
@@ -47,14 +46,20 @@ class DepartmentCrudController extends AbstractCrudController
         ];
     }
 
+    public function configureFilters(Filters $filters): Filters
+    {
+        return parent::configureFilters($filters)
+            ->add('id')
+            ->add('departmentName');
+    }
+
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
         // $departments = $this->getUser()->getDepartments();
-
         $qb = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
         if (!$this->isGranted('ROLE_ADMIN')) {
             $qb
-                ->where('entity.id in (:ids)')
+                ->andWhere('entity.id in (:ids)')
                 ->setParameter('ids', $this->getUser()->getDepartments());
         }
         return $qb;

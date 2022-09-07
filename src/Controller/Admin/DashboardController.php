@@ -46,10 +46,9 @@ class DashboardController extends AbstractDashboardController
     {
         return parent::configureActions()
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
-            ->setPermission(Action::NEW, 'ROLE_ADMIN')
-            ->setPermission(Action::EDIT, 'ROLE_ADMIN')
+            ->setPermission(Action::NEW, 'ROLE_MODERATOR')
             ->setPermission(Action::EDIT, 'ROLE_MODERATOR')
-            ->setPermission(Action::DELETE, 'ROLE_ADMIN')
-            ->setPermission(Action::BATCH_DELETE, 'ROLE_ADMIN');
+            ->setPermission(Action::DELETE, 'ROLE_MODERATOR')
+            ->setPermission(Action::BATCH_DELETE, 'ROLE_MODERATOR');
     }
 }

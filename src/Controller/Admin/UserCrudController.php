@@ -36,7 +36,10 @@ class UserCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         return $actions
-            ->setPermission(Action::EDIT, 'ROLE_ADMIN');
+            ->setPermission(Action::EDIT, 'ROLE_ADMIN')
+            ->setPermission(Action::NEW, 'ROLE_ADMIN')
+            ->setPermission(ACTION::DELETE, 'ROLE_ADMIN')
+            ->setPermission(ACTION::BATCH_DELETE, 'ROLE_ADMIN');
     }
 
     public function configureFields(string $pageName): iterable
@@ -67,7 +70,7 @@ class UserCrudController extends AbstractCrudController
     public function configureFilters(Filters $filters): Filters
     {
         return parent::configureFilters($filters)
-
+            ->add('id')
             ->add('email');
     }
 
@@ -75,7 +78,7 @@ class UserCrudController extends AbstractCrudController
     {
         $qb = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
         if (!$this->isGranted('ROLE_ADMIN')) {
-            $qb->where('entity.id = :id');
+            $qb->andWhere('entity.id = :id');
             $qb->setParameter('id', $this->getUser()->getId());
         }
         return $qb;
