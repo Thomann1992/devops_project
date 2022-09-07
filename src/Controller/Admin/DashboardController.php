@@ -14,20 +14,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
-use App\Repository\UserRepository;
 
 class DashboardController extends AbstractDashboardController
 {
-
-    private UserRepository $questionRepository;
-
-
-    public function __construct(UserRepository $userRepository)
-    {
-        $this->userRepository = $userRepository;
-    }
-
 
     #[Route('/admin', name: 'admin')]
     public function index(): Response
@@ -36,7 +25,6 @@ class DashboardController extends AbstractDashboardController
         $url = $routeBuilder->setController(UserCrudController::class)->generateUrl();
 
         return $this->redirect($url);
-        //return $this->render('admin/index.html.twig');
     }
 
     public function configureDashboard(): Dashboard
@@ -51,7 +39,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Users', 'fas fa-user', User::class);
         yield MenuItem::linkToCrud('Departments', 'fas fa-users', Department::class);
         yield MenuItem::linkToCrud('Descriptions', 'fas fa-comment', Description::class);
-        // ]);
         yield MenuItem::linkToLogout('Logout', 'fas fa-door-open');
     }
 
@@ -59,10 +46,5 @@ class DashboardController extends AbstractDashboardController
     {
         return parent::configureActions()
             ->add(Crud::PAGE_INDEX, Action::DETAIL);
-    }
-
-    public function configureAssets(): Assets
-    {
-        return parent::configureAssets();
     }
 }

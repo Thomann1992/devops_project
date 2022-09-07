@@ -64,21 +64,21 @@ class DepartmentRepository extends ServiceEntityRepository
     //         ->getOneOrNullResult();
     // }
 
-    public function findOneBySomeField(User $user): ?Department
-    {
-        $userDepartments = $user->getDepartments();
+    // public function findOneBySomeField(User $user): ?Department
+    // {
+    //     $userDepartments = $user->getDepartments();
 
-        $qb = $this->createQueryBuilder('p');
+    //     $qb = $this->createQueryBuilder('p');
 
-        $qb
-            ->innerJoin('App\Entity\User', 'u', 'WITH', 'u = p.user')
-            ->where('u.userId = :val')
-            ->setParameter('val', $user->getId())
-            ->getQuery()
-            ->getOneOrNullResult();
+    //     $qb
+    //         ->innerJoin('App\Entity\User', 'u', 'WITH', 'u = p.user')
+    //         ->where('u.userId = :val')
+    //         ->setParameter('val', $user->getId())
+    //         ->getQuery()
+    //         ->getOneOrNullResult();
 
-        // dump($qb->getQuery()->getResult());
+    //     // dump($qb->getQuery()->getResult());
 
-        return $qb->getQuery()->getResult();
-    }
+    //     return $qb->getQuery()->getResult();
+    // }
 }

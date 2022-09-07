@@ -74,7 +74,6 @@ class UserCrudController extends AbstractCrudController
 
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
-        // $user = $this->getUser();
         $qb = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
         if (!$this->isGranted('ROLE_ADMIN')) {
             $qb->where('entity.id = :id');
@@ -82,20 +81,4 @@ class UserCrudController extends AbstractCrudController
         }
         return $qb;
     }
-
-    // protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
-    // {
-    //     $isAdminUser = $this->isGranted('ROLE_ADMIN');
-
-    //     /**
-    //      * @var QueryBuilder $qb
-    //      */
-    //     $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
-
-    //     if (!$isAdminUser) {
-    //         $qb->join('entity.userId', 'entity')->where('entity.id = :userId')
-    //             ->setParameter('userId', $this->getUser()->getId());
-    //     }
-    //     return $qb;
-    // }
 }

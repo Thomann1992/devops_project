@@ -17,6 +17,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use LDAP\Result;
 use Symfony\Component\Validator\Constraints\Collection;
 
@@ -50,48 +51,42 @@ class DescriptionCrudController extends AbstractCrudController
             TextareaField::new('description'),
             UrlField::new('URL'),
             UrlField::new('onePassword', '1password'),
-            // AssociationField::new('Departments')
-            //     ->autocomplete()
-            //     ->formatValue(function ($value, $entity) {
-            //         $str = $entity->getDepartments()[0];
-            //         for ($i = 1; $i < $entity->getDepartments()->count(); $i++) {
-            //             $str = $str . ", " . $entity->getDepartments()[$i];
-            //         }
-            //         return $str;
-            //     }),
+            AssociationField::new('Departments')
+                ->autocomplete()
+                ->formatValue(function ($value, $entity) {
+                    $str = $entity->getDepartments()[0];
+                    for ($i = 1; $i < $entity->getDepartments()->count(); $i++) {
+                        $str = $str . ", " . $entity->getDepartments()[$i];
+                    }
+                    return $str;
+                }),
             TextareaField::new('additionalInfo'),
             DateField::new('created')
                 ->hideOnForm(),
             DateField::new('updated')
                 ->hideOnForm(),
-            // DateField::new('contentChanged')
-            //     ->hideOnForm()
         ];
     }
 
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
-        $isAdminUser = $this->isGranted('ROLE_ADMIN');
-        $defaultQueryBuilder = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
+        $qb = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
 
-        $user = $this->getUser();
-        $userDepartments = $user->getDepartments();
+        $userDepartments = $this->getUser()->getDepartments();
 
-        $descriptions[] = 305;
-        array_push($descriptions, 305);
-
+        $descriptions = array();
 
         foreach ($userDepartments as $result) {
-            array_push($descriptions, $result);
-        }
-
-        if (!$isAdminUser) {
-            foreach ($descriptions as $result) {
-                $defaultQueryBuilder
-                    ->where('entity.id = :descriptionId')
-                    ->setParameter('descriptionId', $result);
+            foreach ($result->getDescriptions() as $description) {
+                array_push($descriptions, $description);
             }
         }
-        return $defaultQueryBuilder;
+
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $qb
+                ->where('entity.id in (:descriptionIds)')
+                ->setParameter('descriptionIds', $descriptions);
+        }
+        return $qb;
     }
 }
