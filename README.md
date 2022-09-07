@@ -57,4 +57,7 @@ You should now be able to browse to the application
 symfony server:start -d
 ```
 
-## Lav lige en standard admin bruger som man kan logge på med
+## Admin user
+Admin user gets created when fixtures are run. It's credentials are:
+Username: admin@admin.com
+Password: 123123
