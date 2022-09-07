@@ -64,6 +64,6 @@ symfony server:start -d
 ```
 
 ## Admin user
-Admin user gets created when fixtures are run. It's credentials are:__
-Username: admin@admin.com__
+Admin user gets created when fixtures are run. It's credentials are:  
+Username: admin@admin.com  
 Password: 123123
