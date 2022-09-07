@@ -47,7 +47,7 @@ To get a local copy up and running follow these steps.
    docker-compose exec phpfpm bin/console doctrine:migrations:migrate --no-interaction
    ```
 
-5. Run database migrations
+5. Load fixtures
 
    ```sh
    php bin/console hautelook:fixtures:load
