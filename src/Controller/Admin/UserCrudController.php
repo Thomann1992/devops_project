@@ -8,11 +8,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
@@ -20,26 +20,18 @@ use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
-use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use App\Form\RegistrationFormType;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 
 class UserCrudController extends AbstractCrudController
 {
-
+    #[Route('test', name: 'app_test')]
     private UserPasswordHasherInterface $passwordEncoder;
 
     public function __construct(UserPasswordHasherInterface $passwordEncoder)
@@ -88,19 +80,22 @@ class UserCrudController extends AbstractCrudController
                 ->setChoices(array_combine($roles, $roles))
                 ->allowMultipleChoices()
                 ->setSortable(false),
-            // TextField::new('password')
-            //     ->onlyWhenCreating(),
             Field::new('password', 'New password')
-            // ->onlyWhenCreating()
-            //         ->setRequired(true)
-            //         ->setFormType(RepeatedType::class)
-            //         ->setFormTypeOptions([
-            //             'type'            => PasswordType::class,
-            //             'first_options'   => ['label' => 'New password'],
-            //             'second_options'  => ['label' => 'Repeat password'],
-            //             'error_bubbling'  => true,
-            //             'invalid_message' => 'The password fields do not match.',
-            //         ])
+                ->onlyWhenCreating()
+                ->setRequired(true)
+                ->setFormType(RepeatedType::class)
+                ->setFormTypeOptions([
+                    'type'            => PasswordType::class,
+                    'first_options'   => ['label' => 'New password'],
+                    'second_options'  => ['label' => 'Repeat password'],
+                    'error_bubbling'  => true,
+                    'invalid_message' => 'The password fields do not match.',
+                ]),
+            Field::new('createdBy')
+                ->onlyOnDetail(),
+            Field::new('updatedBy')
+                ->onlyOnDetail()
+
         ];;
     }
 

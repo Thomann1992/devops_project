@@ -17,7 +17,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 
 class DashboardController extends AbstractDashboardController
 {
-
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
@@ -41,7 +40,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Descriptions', 'fas fa-comment', Description::class);
         yield MenuItem::linkToLogout('Logout', 'fas fa-door-open');
     }
-
     public function configureActions(): Actions
     {
         return parent::configureActions()

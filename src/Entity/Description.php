@@ -7,11 +7,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Blameable\Traits\Blameable;
 use Gedmo\Mapping\Annotation as Gedmo;
+
 
 #[ORM\Entity(repositoryClass: DescriptionRepository::class)]
 class Description
 {
+    use Blameable;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -56,6 +59,26 @@ class Description
     #[ORM\Column(name: 'content_changed', type: Types::DATETIME_MUTABLE, nullable: true)]
     #[Gedmo\Timestampable(on: 'change', field: ['title', 'body'])]
     private $contentChanged;
+
+    /**
+     * @var string|null
+     *
+     * @Gedmo\Blameable(on="create")
+     * @ORM\Column(type="string")
+     */
+    #[ORM\Column(type: Types::STRING)]
+    #[Gedmo\Blameable(on: 'create')]
+    private $createdBy;
+
+    /**
+     * @var string|null
+     *
+     * @Gedmo\Blameable(on="update")
+     * @ORM\Column(type="string")
+     */
+    #[ORM\Column(type: Types::STRING)]
+    #[Gedmo\Blameable(on: 'update')]
+    private $updatedBy;
 
 
     public function __construct()

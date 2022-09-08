@@ -6,10 +6,16 @@ use App\Repository\DepartmentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Traits\BlameableEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Doctrine\DBAL\Types\Types;
+
 
 #[ORM\Entity(repositoryClass: DepartmentRepository::class)]
 class Department
 {
+    use BlameableEntity;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -23,6 +29,26 @@ class Department
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'Departments')]
     private Collection $users;
+
+    /**
+     * @var string|null
+     *
+     * @Gedmo\Blameable(on="create")
+     * @ORM\Column(type="string")
+     */
+    #[ORM\Column(type: Types::STRING)]
+    #[Gedmo\Blameable(on: 'create')]
+    private $createdBy;
+
+    /**
+     * @var string|null
+     *
+     * @Gedmo\Blameable(on="update")
+     * @ORM\Column(type="string")
+     */
+    #[ORM\Column(type: Types::STRING)]
+    #[Gedmo\Blameable(on: 'update')]
+    private $updatedBy;
 
     public function __construct()
     {
@@ -105,4 +131,50 @@ class Department
 
         return $this;
     }
+
+    // /**
+    //  * Set createdBy
+    //  *
+    //  * @param User $createdBy
+    //  * @return Object
+    //  */
+    // public function setCreatedBy(User $createdBy)
+    // {
+    //     $this->createdBy = $createdBy;
+
+    //     return $this;
+    // }
+
+    // /**
+    //  * Get createdBy
+    //  *
+    //  * @return User
+    //  */
+    // public function getCreatedBy()
+    // {
+    //     return $this->createdBy;
+    // }
+
+    // /**
+    //  * Set updatedBy
+    //  *
+    //  * @param User $updatedBy
+    //  * @return Object
+    //  */
+    // public function setUpdatedBy(User $updatedBy)
+    // {
+    //     $this->updatedBy = $updatedBy;
+
+    //     return $this;
+    // }
+
+    // /**
+    //  * Get updatedBy
+    //  *
+    //  * @return User
+    //  */
+    // public function getUpdatedBy()
+    // {
+    //     return $this->updatedBy;
+    // }
 }

@@ -10,12 +10,17 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use App\Entity\Department;
+use App\Entity\Traits\BlameableEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    use BlameableEntity;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -26,6 +31,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private array $roles = [];
+
+    /**
+     * @var string|null
+     *
+     * @Gedmo\Blameable(on="create")
+     * @ORM\Column(type="string")
+     */
+    #[ORM\Column(type: Types::STRING)]
+    #[Gedmo\Blameable(on: 'create')]
+    private $createdBy;
+
+    /**
+     * @var string|null
+     *
+     * @Gedmo\Blameable(on="update")
+     * @ORM\Column(type="string")
+     */
+    #[ORM\Column(type: Types::STRING)]
+    #[Gedmo\Blameable(on: 'update')]
+    private $updatedBy;
 
     /**
      * @var string The hashed password

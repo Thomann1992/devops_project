@@ -2,4 +2,3 @@ App\Entity\Department:
     department_{1..10}:
         departmentName (unique): <city()>
         
-        
