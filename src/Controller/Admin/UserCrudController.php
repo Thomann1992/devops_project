@@ -29,7 +29,6 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
-
 class UserCrudController extends AbstractCrudController
 {
     #[Route('test', name: 'app_test')]
@@ -45,14 +44,6 @@ class UserCrudController extends AbstractCrudController
         return User::class;
     }
 
-    public function createEntity(string $entityFqcn)
-    {
-        $user = new User();
-        $user->setEmail('');
-        $user->setPassword('');
-        return $user;
-    }
-
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
@@ -63,7 +54,7 @@ class UserCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         return $actions
-            // ->setPermission(Action::EDIT, 'ROLE_ADMIN')
+            ->setPermission(Action::EDIT, 'ROLE_ADMIN')
             ->setPermission(Action::NEW, 'ROLE_ADMIN')
             ->setPermission(ACTION::DELETE, 'ROLE_ADMIN')
             ->setPermission(ACTION::BATCH_DELETE, 'ROLE_ADMIN');
@@ -90,9 +81,8 @@ class UserCrudController extends AbstractCrudController
                 ->allowMultipleChoices()
                 ->setSortable(false),
             TextField::new('password', 'New password')
-                // ->onlyWhenCreating()
+                ->onlyWhenCreating()
                 ->setRequired(true)
-                // ->setFormType(PasswordType::class)
                 ->setFormType(RepeatedType::class)
                 ->setFormTypeOptions([
                     'type'            => PasswordType::class,
@@ -101,17 +91,17 @@ class UserCrudController extends AbstractCrudController
                     'error_bubbling'  => true,
                     'invalid_message' => 'The password fields do not match.',
                 ]),
-            // Field::new('password', 'New password')
-            //     // ->onlyWhenUpdating()
-            //     ->setRequired(false)
-            //     ->setFormType(RepeatedType::class)
-            //     ->setFormTypeOptions([
-            //         'type'            => PasswordType::class,
-            //         'first_options'   => ['label' => 'New password'],
-            //         'second_options'  => ['label' => 'Repeat password'],
-            //         'error_bubbling'  => true,
-            //         'invalid_message' => 'The password fields do not match.',
-            //     ]),
+            Field::new('password', 'New password')
+                ->onlyWhenUpdating()
+                ->setRequired(false)
+                ->setFormType(RepeatedType::class)
+                ->setFormTypeOptions([
+                    'type'            => PasswordType::class,
+                    'first_options'   => ['label' => 'New password'],
+                    'second_options'  => ['label' => 'Repeat password'],
+                    'error_bubbling'  => true,
+                    'invalid_message' => 'The password fields do not match.',
+                ]),
             Field::new('createdBy')
                 ->onlyOnDetail(),
             Field::new('updatedBy')
@@ -164,12 +154,4 @@ class UserCrudController extends AbstractCrudController
             }
         });
     }
-    // if ($form->isSubmitted() && $form->isValid()) {
-    //     // encode the plain password
-    //     $user->setPassword(
-    //         $userPasswordHasher->hashPassword(
-    //             $user,
-    //             $form->get('plainPassword')->getData()
-    //         )
-    //     );
 }
