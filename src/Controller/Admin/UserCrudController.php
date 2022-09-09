@@ -13,6 +13,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
@@ -42,6 +43,14 @@ class UserCrudController extends AbstractCrudController
     public static function getEntityFqcn(): string
     {
         return User::class;
+    }
+
+    public function createEntity(string $entityFqcn)
+    {
+        $user = new User();
+        $user->setEmail('');
+        $user->setPassword('');
+        return $user;
     }
 
     public function configureCrud(Crud $crud): Crud
@@ -80,9 +89,10 @@ class UserCrudController extends AbstractCrudController
                 ->setChoices(array_combine($roles, $roles))
                 ->allowMultipleChoices()
                 ->setSortable(false),
-            Field::new('password', 'New password')
-                ->onlyWhenCreating()
+            TextField::new('password', 'New password')
+                // ->onlyWhenCreating()
                 ->setRequired(true)
+                // ->setFormType(PasswordType::class)
                 ->setFormType(RepeatedType::class)
                 ->setFormTypeOptions([
                     'type'            => PasswordType::class,
@@ -91,10 +101,22 @@ class UserCrudController extends AbstractCrudController
                     'error_bubbling'  => true,
                     'invalid_message' => 'The password fields do not match.',
                 ]),
+            // Field::new('password', 'New password')
+            //     // ->onlyWhenUpdating()
+            //     ->setRequired(false)
+            //     ->setFormType(RepeatedType::class)
+            //     ->setFormTypeOptions([
+            //         'type'            => PasswordType::class,
+            //         'first_options'   => ['label' => 'New password'],
+            //         'second_options'  => ['label' => 'Repeat password'],
+            //         'error_bubbling'  => true,
+            //         'invalid_message' => 'The password fields do not match.',
+            //     ]),
             Field::new('createdBy')
                 ->onlyOnDetail(),
             Field::new('updatedBy')
-                ->onlyOnDetail()
+                ->onlyOnDetail(),
+
         ];;
     }
 
@@ -115,14 +137,14 @@ class UserCrudController extends AbstractCrudController
         return $qb;
     }
 
-    // public function createEditFormBuilder(EntityDto $entityDto, KeyValueStore $formOptions, AdminContext $context): FormBuilderInterface
-    // {
-    //     $plainPassword = $entityDto->getInstance()?->getPassword();
-    //     $formBuilder   = parent::createEditFormBuilder($entityDto, $formOptions, $context);
-    //     $this->addEncodePasswordEventListener($formBuilder, $plainPassword);
+    public function createEditFormBuilder(EntityDto $entityDto, KeyValueStore $formOptions, AdminContext $context): FormBuilderInterface
+    {
+        $plainPassword = $entityDto->getInstance()?->getPassword();
+        $formBuilder   = parent::createEditFormBuilder($entityDto, $formOptions, $context);
+        $this->addEncodePasswordEventListener($formBuilder, $plainPassword);
 
-    //     return $formBuilder;
-    // }
+        return $formBuilder;
+    }
 
     public function createNewFormBuilder(EntityDto $entityDto, KeyValueStore $formOptions, AdminContext $context): FormBuilderInterface
     {
@@ -142,4 +164,12 @@ class UserCrudController extends AbstractCrudController
             }
         });
     }
+    // if ($form->isSubmitted() && $form->isValid()) {
+    //     // encode the plain password
+    //     $user->setPassword(
+    //         $userPasswordHasher->hashPassword(
+    //             $user,
+    //             $form->get('plainPassword')->getData()
+    //         )
+    //     );
 }
