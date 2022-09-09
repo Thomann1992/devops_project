@@ -52,11 +52,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Gedmo\Blameable(on: 'update')]
     private $updatedBy;
 
-    /**
-     * @var string The hashed password
-     */
-    #[ORM\Column]
+    // #[ORM\Column]
+    // private ?string $password = null;
+
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $password = null;
+
 
     #[ORM\ManyToMany(targetEntity: Department::class, inversedBy: 'users')]
     private Collection $Departments;
@@ -115,7 +116,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see PasswordAuthenticatedUserInterface
      */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }

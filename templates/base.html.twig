@@ -25,7 +25,8 @@
         {% else %}
             <p><a href="{{ path('admin') }}">Login</a></p>
         {% endif %}
-            <p><a href="{{ path('app_register') }}">Opret ny bruger</a></p>            
+            <p><a href="{{ path('app_register') }}">Opret ny bruger</a></p>   
+            <p><a href="{{ path('admin') }}">Admin</a></p>   
         </div>
 
             {% block body %}{% endblock %}

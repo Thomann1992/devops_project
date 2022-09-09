@@ -82,7 +82,5 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     //        ;
     //    }
 
-    public function findDepartment(User $user): ?Department
-    {
-    }
+
 }

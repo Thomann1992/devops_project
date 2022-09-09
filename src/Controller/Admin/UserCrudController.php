@@ -95,7 +95,6 @@ class UserCrudController extends AbstractCrudController
                 ->onlyOnDetail(),
             Field::new('updatedBy')
                 ->onlyOnDetail()
-
         ];;
     }
 
@@ -116,14 +115,14 @@ class UserCrudController extends AbstractCrudController
         return $qb;
     }
 
-    public function createEditFormBuilder(EntityDto $entityDto, KeyValueStore $formOptions, AdminContext $context): FormBuilderInterface
-    {
-        $plainPassword = $entityDto->getInstance()?->getPassword();
-        $formBuilder   = parent::createEditFormBuilder($entityDto, $formOptions, $context);
-        $this->addEncodePasswordEventListener($formBuilder, $plainPassword);
+    // public function createEditFormBuilder(EntityDto $entityDto, KeyValueStore $formOptions, AdminContext $context): FormBuilderInterface
+    // {
+    //     $plainPassword = $entityDto->getInstance()?->getPassword();
+    //     $formBuilder   = parent::createEditFormBuilder($entityDto, $formOptions, $context);
+    //     $this->addEncodePasswordEventListener($formBuilder, $plainPassword);
 
-        return $formBuilder;
-    }
+    //     return $formBuilder;
+    // }
 
     public function createNewFormBuilder(EntityDto $entityDto, KeyValueStore $formOptions, AdminContext $context): FormBuilderInterface
     {

@@ -36,7 +36,6 @@ class DescriptionCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-
             IdField::new('id')
                 ->onlyOnDetail(),
             TextField::new('Name')
@@ -46,7 +45,6 @@ class DescriptionCrudController extends AbstractCrudController
             UrlField::new('OnePassword', '1password')
                 ->setSortable(true),
             AssociationField::new('Departments')
-                ->autocomplete()
                 ->formatValue(function ($value, $entity) {
                     $str = $entity->getDepartments()[0];
                     for ($i = 1; $i < $entity->getDepartments()->count(); $i++) {

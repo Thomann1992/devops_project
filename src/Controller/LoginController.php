@@ -11,15 +11,6 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class LoginController extends AbstractController
 {
-    private $adminUrlGenerator;
-
-    public function __construct(AdminUrlGenerator $adminUrlGenerator)
-    {
-        $this->adminUrlGenerator = $adminUrlGenerator;
-    }
-
-
-
     #[Route('', name: 'app_login')]
     public function index(AuthenticationUtils $authenticationUtils): Response
     {
