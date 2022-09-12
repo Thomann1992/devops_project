@@ -65,7 +65,8 @@ class UserCrudController extends AbstractCrudController
         $roles = ['ROLE_ADMIN', 'ROLE_MODERATOR', 'ROLE_USER'];
         return [
             IdField::new('id')
-                ->onlyOnDetail(),
+                ->onlyOnDetail()
+                ->setPermission('ROLE_MODERATOR'),
             EmailField::new('email'),
             AssociationField::new('Departments')
                 ->formatValue(function ($value, $entity) {
@@ -79,7 +80,8 @@ class UserCrudController extends AbstractCrudController
             ChoiceField::new('roles')
                 ->setChoices(array_combine($roles, $roles))
                 ->allowMultipleChoices()
-                ->setSortable(false),
+                ->setSortable(false)
+                ->setPermission('ROLE_ADMIN'),
             TextField::new('password', 'New password')
                 ->onlyWhenCreating()
                 ->setRequired(true)
