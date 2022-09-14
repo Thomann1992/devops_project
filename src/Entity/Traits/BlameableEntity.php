@@ -2,8 +2,6 @@
 
 namespace App\Entity\Traits;
 
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 use App\Entity\User;
 
 /**
@@ -11,26 +9,6 @@ use App\Entity\User;
  */
 trait BlameableEntity
 {
-
-    // /**
-    //  * @var ?User
-    //  *
-    //  * @Gedmo\Blameable(on="create")
-    //  * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
-    //  * @ORM\JoinColumn(name="created_by", referencedColumnName="id")
-    //  */
-    // protected $createdBy;
-
-    // /**
-    //  * @var ?User
-    //  *
-    //  * @Gedmo\Blameable(on="update")
-    //  * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
-    //  * @ORM\JoinColumn(name="updated_by", referencedColumnName="id")
-    //  */
-    // protected $updatedBy;
-
-
     /**
      * Set createdBy
      *
