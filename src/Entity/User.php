@@ -38,7 +38,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Gedmo\Blameable(on="create")
      * @ORM\Column(type="string")
      */
-    #[ORM\Column(type: Types::STRING, nullable: true)]
+    #[ORM\Column(type: Types::STRING,)]
     #[Gedmo\Blameable(on: 'create')]
     private $createdBy;
 

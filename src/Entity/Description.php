@@ -80,7 +80,6 @@ class Description
     #[Gedmo\Blameable(on: 'update')]
     private $updatedBy;
 
-
     public function __construct()
     {
         $this->Departments = new ArrayCollection();

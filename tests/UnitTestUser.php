@@ -31,11 +31,5 @@ class AdminControllerTest extends WebTestCase
 
         // test that a user can have several roles and that the setter works as intended
         $this->assertEquals(['ROLE_ADMIN', 'ROLE_USER'], $testUserAdmin->getRoles());
-
-        // $this->assertEquals($testUserAdmin, $testUser->getupdatedBy());
-        //$this->assertEquals('bob@bob.com', $testUser->getEmail());
-
-        $client->request('GET', '/admin');
-        $this->assertResponseStatusCodeSame(200);
     }
 }

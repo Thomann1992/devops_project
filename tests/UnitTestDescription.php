@@ -22,21 +22,13 @@ class AdminControllerTest extends WebTestCase
         $testUserAdmin = new User();
         $testUserAdmin->setRoles(['ROLE_ADMIN']);
 
-
         // simulate $testUser being logged in
-        // $client->loginUser($testUser);
-
-        // $testUser->setEmail('bob@bob.com');
-
+        // $client->loginUser($testUserAdmin);
 
         // test e.g. the admin page
         $this->assertEquals(date('Js F Y'), $testDescription->getCreated());
-        // $this->assertEquals(['ROLE_U, $testDescription->getUpdated());
-        // $this->assertEquals(['ROLE_ADMIN', 'ROLE_USER'], $testUserAdmin->getRoles());
+
 
         // $this->assertEquals($testUserAdmin, $testUser->getupdatedBy());
-
-        // $client->request('GET', '/admin');
-        // $this->assertResponseStatusCodeSame(200);
     }
 }
