@@ -5,7 +5,7 @@ This will contain a description of how to install and use the system
 ## About the project
 
 // Todo
-Make a description of why the system has ben developed
+Make a description of why the system has been developed
 
 ## Built with
 
