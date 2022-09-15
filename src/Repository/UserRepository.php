@@ -5,9 +5,11 @@ namespace App\Repository;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
+
 
 /**
  * @extends ServiceEntityRepository<User>
@@ -17,7 +19,7 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
+class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface, UserLoaderInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -56,6 +58,40 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->add($user, true);
     }
 
+    // public function loadUserByIdentifier(string $identifier): UserInterface
+    // {
+    //     $user = $this->em->createQueryBuilder()
+    //             ->select('u')
+    //             ->from(YourUser::class, 'u')
+    //             ->where('LOWER(u.username) = :username')
+    //             ->setParameter('username', strtolower($identifier))
+    //             ->setMaxResults(1)
+    //             ->getQuery()
+    //             ->getOneOrNullResult();
+
+    //     if (!$user instanceof YourUser::class) {
+    //         throw new UserNotFoundException('No user found for ' . $username);
+    //     }
+
+    //     return $user;
+
+    // }
+
+    public function loadUserByIdentifier(string $usernameOrEmail): ?User
+    {
+        $entityManager = $this->getEntityManager();
+
+        return $entityManager->createQuery(
+            'SELECT u
+                FROM App\Entity\User u
+                -- WHERE u.username = :query
+                WHERE LOWER(u.email) = :query'
+        )
+            ->setParameter('query', strtolower($usernameOrEmail))
+            ->getOneOrNullResult();
+    }
+}
+
     //    /**
     //     * @return User[] Returns an array of User objects
     //     */
@@ -80,6 +116,3 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     //            ->getOneOrNullResult()
     //        ;
     //    }
-
-
-}
