@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Tests;
+namespace App\tests;
 
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use App\Entity\User;
 
-class UserTest extends WebTestCase
+class AdminControllerTest extends WebTestCase
 {
-    public function testSomething(): void
+    public function testVisitingWhileLoggedIn()
     {
         $client = static::createClient();
         // $userRepository = static::$container->get(UserRepository::class);
@@ -21,9 +22,9 @@ class UserTest extends WebTestCase
         $testUserAdmin->setRoles(['ROLE_ADMIN']);
 
 
-        // simulate $testUserAdmin being logged in
-        // $client->loginUser($testUserAdmin);
-        // $testUser->setEmail('bob@bob.com');
+        // simulate $testUser being logged in
+        $client->loginUser($testUser);
+        $testUser->setEmail('bob@bob.com');
 
         // test that a user gets the role of ROLE_USER by default
         $this->assertEquals(['ROLE_USER'], $testUser->getRoles());
@@ -34,10 +35,7 @@ class UserTest extends WebTestCase
         // $this->assertEquals($testUserAdmin, $testUser->getupdatedBy());
         //$this->assertEquals('bob@bob.com', $testUser->getEmail());
 
-
-        // $client->request('GET', '/admin');
-        // $this->assertResponseIsSuccessful();
-        // $this->assertResponseStatusCodeSame('200', $crawler->$client->requst('GET', '/admin'));
-        // $this->assertResponseStatusCodeSame(500);
+        $client->request('GET', '/admin');
+        $this->assertResponseStatusCodeSame(200);
     }
 }

@@ -1,0 +1,42 @@
+<?php
+
+namespace App\tests;
+
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use App\Entity\User;
+use App\Entity\Description;
+
+
+class AdminControllerTest extends WebTestCase
+{
+    public function testVisitingWhileLoggedIn()
+    {
+        $client = static::createClient();
+        // $userRepository = static::$container->get(UserRepository::class);
+
+        // retrieve the test user
+        $testDescription = new Description();
+        $testDescription->setDescription('This is a description of something');
+        $testDescription->setName('Some description');
+
+        $testUserAdmin = new User();
+        $testUserAdmin->setRoles(['ROLE_ADMIN']);
+
+
+        // simulate $testUser being logged in
+        // $client->loginUser($testUser);
+
+        // $testUser->setEmail('bob@bob.com');
+
+
+        // test e.g. the admin page
+        $this->assertEquals(date('Js F Y'), $testDescription->getCreated());
+        // $this->assertEquals(['ROLE_U, $testDescription->getUpdated());
+        // $this->assertEquals(['ROLE_ADMIN', 'ROLE_USER'], $testUserAdmin->getRoles());
+
+        // $this->assertEquals($testUserAdmin, $testUser->getupdatedBy());
+
+        // $client->request('GET', '/admin');
+        // $this->assertResponseStatusCodeSame(200);
+    }
+}
