@@ -51,7 +51,8 @@ class DescriptionCrudController extends AbstractCrudController
                         $str = $str . ", " . $entity->getDepartments()[$i];
                     }
                     return $str;
-                }),
+                })
+                ->setTextAlign('left'),
             TextareaField::new('additionalInfo')
                 ->setSortable(false),
             DateField::new('created')
