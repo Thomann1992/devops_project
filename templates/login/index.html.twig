@@ -26,10 +26,6 @@
 
         <button type="submit">login</button>
 
-        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            {# <p><a href="{{ path('app_logout') }}">Logout</a></p> #}
-            <p><a href="{{ path('admin') }}">Go to Admin</a></p>  
-        {% endif %}
          {# <p><a href="{{ path('app_home') }}">Glemt kodeord?</a></p> #}
     </form>
     </div>
