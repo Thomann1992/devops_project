@@ -27,6 +27,7 @@ class DepartmentCrudController extends AbstractCrudController
     {
         return $crud
             ->setEntityLabelInSingular('Department')
+            ->setEntityLabelInPlural('Departments')
             ->showEntityActionsInlined();
     }
 

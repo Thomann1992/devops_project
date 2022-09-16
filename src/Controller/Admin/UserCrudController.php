@@ -48,6 +48,7 @@ class UserCrudController extends AbstractCrudController
     {
         return $crud
             ->setEntityLabelInSingular('User')
+            ->setEntityLabelInPlural('Users')
             ->showEntityActionsInlined();
     }
 

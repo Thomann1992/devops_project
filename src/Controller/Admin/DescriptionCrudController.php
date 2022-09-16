@@ -30,6 +30,7 @@ class DescriptionCrudController extends AbstractCrudController
     {
         return $crud
             ->setEntityLabelInSingular('Description')
+            ->setEntityLabelInPlural('Descriptions')
             ->showEntityActionsInlined();
     }
 
