@@ -53,7 +53,8 @@ class DescriptionCrudController extends AbstractCrudController
                     }
                     return $str;
                 })
-                ->setTextAlign('left'),
+                ->setTextAlign('left')
+                ->hideOnIndex(),
             TextareaField::new('additionalInfo')
                 ->setSortable(false),
             DateField::new('created')

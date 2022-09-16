@@ -21,10 +21,9 @@ class AdminControllerTest extends WebTestCase
         $testUserAdmin = new User();
         $testUserAdmin->setRoles(['ROLE_ADMIN']);
 
-
         // simulate $testUser being logged in
-        $client->loginUser($testUser);
-        $testUser->setEmail('bob@bob.com');
+        // $client->loginUser($testUser);
+        // $testUser->setEmail('bob@bob.com');
 
         // test that a user gets the role of ROLE_USER by default
         $this->assertEquals(['ROLE_USER'], $testUser->getRoles());

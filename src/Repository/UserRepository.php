@@ -58,25 +58,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->add($user, true);
     }
 
-    // public function loadUserByIdentifier(string $identifier): UserInterface
-    // {
-    //     $user = $this->em->createQueryBuilder()
-    //             ->select('u')
-    //             ->from(YourUser::class, 'u')
-    //             ->where('LOWER(u.username) = :username')
-    //             ->setParameter('username', strtolower($identifier))
-    //             ->setMaxResults(1)
-    //             ->getQuery()
-    //             ->getOneOrNullResult();
-
-    //     if (!$user instanceof YourUser::class) {
-    //         throw new UserNotFoundException('No user found for ' . $username);
-    //     }
-
-    //     return $user;
-
-    // }
-
     public function loadUserByIdentifier(string $usernameOrEmail): ?User
     {
         $entityManager = $this->getEntityManager();
