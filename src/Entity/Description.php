@@ -66,7 +66,7 @@ class Description
      * @Gedmo\Blameable(on="create")
      * @ORM\Column(type="string")
      */
-    #[ORM\Column(type: Types::STRING)]
+    #[ORM\Column(type: Types::STRING, nullable: true)]
     #[Gedmo\Blameable(on: 'create')]
     private $createdBy;
 
@@ -76,7 +76,7 @@ class Description
      * @Gedmo\Blameable(on="update")
      * @ORM\Column(type="string")
      */
-    #[ORM\Column(type: Types::STRING)]
+    #[ORM\Column(type: Types::STRING, nullable: true)]
     #[Gedmo\Blameable(on: 'update')]
     private $updatedBy;
 
