@@ -80,6 +80,7 @@
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
+            "ckeditor:install": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "post-install-cmd": [
@@ -87,6 +88,32 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "check-coding-standards/php-cs-fixer": [
+            "php-cs-fixer --config=.php-cs-fixer.dist.php fix --dry-run"
+        ],
+        "check-coding-standards/twigcs": [
+            "twigcs templates"
+        ],
+        "check-coding-standards": [
+            "@check-coding-standards/php-cs-fixer",
+            "@check-coding-standards/twigcs"
+        ],
+        "apply-coding-standards/php-cs-fixer": [
+            "php-cs-fixer --config=.php-cs-fixer.dist.php fix"
+        ],
+        "apply-coding-standards": [
+            "@apply-coding-standards/php-cs-fixer"
+        ],
+        "code-analysis/phpstan": [
+            "phpstan analyse src tests"
+        ],
+        "code-analysis/psalm": [
+            "psalm src tests"
+        ],
+        "code-analysis": [
+            "@code-analysis/phpstan",
+            "@code-analysis/psalm"
         ]
     },
     "conflict": {
