@@ -29,32 +29,16 @@ class DashboardController extends AbstractDashboardController
         return $this->redirect($url);
     }
 
-    // #[Route('/admin')]
-    // public function index(): Response
-    // {
-    //     return $this->render('admin/my-dashboard.html.twig', []);
-    // }
-
     public function configureUserMenu(UserInterface $user): UserMenu
     {
-        // Usually it's better to call the parent method because that gives you a
-        // user menu with some menu items already created ("sign out", "exit impersonation", etc.)
-        // if you prefer to create the user menu from scratch, use: return UserMenu::new()->...
-        return parent::configureUserMenu($user)
-            // use the given $user object to get the user name
-            // ->setName($user->getId())
-            // use this method if you don't want to display the name of the user
-            // ->setAvatarUrl('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Ham_%284%29.jpg/440px-Ham_%284%29.jpg');
-        ;
+        return parent::configureUserMenu($user);
     }
 
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
             ->renderSidebarMinimized()
-            ->setTitle('Devops Project')
-            // ->setFaviconPath('https://img.freepik.com/premium-photo/astronaut-outer-open-space-planet-earth-stars-provide-background-erforming-space-planet-earth-sunrise-sunset-our-home-iss-elements-this-image-furnished-by-nasa_150455-16829.jpg?w=2000');
-        ;
+            ->setTitle('Devops Project');
     }
 
     public function configureMenuItems(): iterable
@@ -64,8 +48,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Descriptions', 'fas fa-comment', Description::class);
         yield MenuItem::linkToLogout('Logout', 'fas fa-door-open');
     }
-
-
 
     public function configureActions(): Actions
     {

@@ -6,14 +6,7 @@ use App\Entity\Department;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @extends ServiceEntityRepository<Department>
- *
- * @method Department|null find($id, $lockMode = null, $lockVersion = null)
- * @method Department|null findOneBy(array $criteria, array $orderBy = null)
- * @method Department[]    findAll()
- * @method Department[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
+
 class DepartmentRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -38,46 +31,4 @@ class DepartmentRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-
-    //    /**
-    //     * @return Department[] Returns an array of Department objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('d')
-    //            ->andWhere('d.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('d.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    // public function findOneBySomeField($value): ?Department
-    // {
-    //     return $this->createQueryBuilder('d')
-    //         ->andWhere('d.exampleField = :val')
-    //         ->setParameter('val', $value)
-    //         ->getQuery()
-    //         ->getOneOrNullResult();
-    // }
-
-    // public function findOneBySomeField(User $user): ?Department
-    // {
-    //     $userDepartments = $user->getDepartments();
-
-    //     $qb = $this->createQueryBuilder('p');
-
-    //     $qb
-    //         ->innerJoin('App\Entity\User', 'u', 'WITH', 'u = p.user')
-    //         ->where('u.userId = :val')
-    //         ->setParameter('val', $user->getId())
-    //         ->getQuery()
-    //         ->getOneOrNullResult();
-
-    //     // dump($qb->getQuery()->getResult());
-
-    //     return $qb->getQuery()->getResult();
-    // }
 }
