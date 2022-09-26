@@ -160,7 +160,7 @@ jobs:
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
       - name: php-cs-fixer
-        run: phpdbg -qrr ./vendor/bin/php-cs-fixer fix --dry-run
+        run: phpdbg -qrr ./vendor/bin/php-cs-fixer fix
 
   twigcs:
     runs-on: ubuntu-20.04

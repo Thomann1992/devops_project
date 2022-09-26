@@ -128,7 +128,8 @@
         }
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.1",
+        "friendsofphp/php-cs-fixer": "^3.8",
+        "friendsoftwig/twigcs": "^5.0",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "hautelook/alice-bundle": "^2.11",
         "phpunit/phpunit": "^9.5",
