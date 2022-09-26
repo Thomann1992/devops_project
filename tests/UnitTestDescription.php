@@ -2,10 +2,9 @@
 
 namespace App\tests;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use App\Entity\User;
 use App\Entity\Description;
-
+use App\Entity\User;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class AdminControllerTest extends WebTestCase
 {
@@ -27,7 +26,6 @@ class AdminControllerTest extends WebTestCase
 
         // test e.g. the admin page
         $this->assertEquals(date('Js F Y'), $testDescription->getCreated());
-
 
         // $this->assertEquals($testUserAdmin, $testUser->getupdatedBy());
     }

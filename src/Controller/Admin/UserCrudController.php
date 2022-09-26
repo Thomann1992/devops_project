@@ -2,25 +2,25 @@
 
 namespace App\Controller\Admin;
 
-use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use App\Entity\User;
+use Doctrine\ORM\QueryBuilder;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
+use EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
-use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
-use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
-use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
-use Doctrine\ORM\QueryBuilder;
-use EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore;
-use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -64,6 +64,7 @@ class UserCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         $roles = ['ROLE_ADMIN', 'ROLE_MODERATOR', 'ROLE_USER'];
+
         return [
             IdField::new('id')
                 ->onlyOnDetail()
@@ -72,9 +73,10 @@ class UserCrudController extends AbstractCrudController
             AssociationField::new('Departments')
                 ->formatValue(function ($value, $entity) {
                     $str = $entity->getDepartments()[0];
-                    for ($i = 1; $i < $entity->getDepartments()->count(); $i++) {
-                        $str = $str . ", " . $entity->getDepartments()[$i];
+                    for ($i = 1; $i < $entity->getDepartments()->count(); ++$i) {
+                        $str = $str.', '.$entity->getDepartments()[$i];
                     }
+
                     return $str;
                 })
                 ->setTextAlign('left'),
@@ -88,10 +90,10 @@ class UserCrudController extends AbstractCrudController
                 ->setRequired(true)
                 ->setFormType(RepeatedType::class)
                 ->setFormTypeOptions([
-                    'type'            => PasswordType::class,
-                    'first_options'   => ['label' => 'New password'],
-                    'second_options'  => ['label' => 'Repeat password'],
-                    'error_bubbling'  => true,
+                    'type' => PasswordType::class,
+                    'first_options' => ['label' => 'New password'],
+                    'second_options' => ['label' => 'Repeat password'],
+                    'error_bubbling' => true,
                     'invalid_message' => 'The password fields do not match.',
                 ]),
             Field::new('password', 'New password')
@@ -99,18 +101,17 @@ class UserCrudController extends AbstractCrudController
                 ->setRequired(false)
                 ->setFormType(RepeatedType::class)
                 ->setFormTypeOptions([
-                    'type'            => PasswordType::class,
-                    'first_options'   => ['label' => 'New password'],
-                    'second_options'  => ['label' => 'Repeat password'],
-                    'error_bubbling'  => true,
+                    'type' => PasswordType::class,
+                    'first_options' => ['label' => 'New password'],
+                    'second_options' => ['label' => 'Repeat password'],
+                    'error_bubbling' => true,
                     'invalid_message' => 'The password fields do not match.',
                 ]),
             Field::new('createdBy')
                 ->onlyOnDetail(),
             Field::new('updatedBy')
                 ->onlyOnDetail(),
-
-        ];;
+        ];
     }
 
     public function configureFilters(Filters $filters): Filters
@@ -127,13 +128,14 @@ class UserCrudController extends AbstractCrudController
             $qb->andWhere('entity.id = :id');
             $qb->setParameter('id', $this->getUser()->getId());
         }
+
         return $qb;
     }
 
     public function createEditFormBuilder(EntityDto $entityDto, KeyValueStore $formOptions, AdminContext $context): FormBuilderInterface
     {
         $plainPassword = $entityDto->getInstance()?->getPassword();
-        $formBuilder   = parent::createEditFormBuilder($entityDto, $formOptions, $context);
+        $formBuilder = parent::createEditFormBuilder($entityDto, $formOptions, $context);
         $this->addEncodePasswordEventListener($formBuilder, $plainPassword);
 
         return $formBuilder;

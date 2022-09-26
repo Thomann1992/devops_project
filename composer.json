@@ -127,6 +127,7 @@
         }
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.1",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "hautelook/alice-bundle": "^2.11",
         "phpunit/phpunit": "^9.5",
@@ -137,5 +138,63 @@
         "symfony/phpunit-bridge": "^6.1",
         "symfony/stopwatch": "6.0.*",
         "symfony/web-profiler-bundle": "6.0.*"
-    }
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "ckeditor:install": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ],
+        "check-coding-standards/php-cs-fixer": [
+            "php-cs-fixer --config=.php-cs-fixer.dist.php fix --dry-run"
+        ],
+        "check-coding-standards/twigcs": [
+            "twigcs templates"
+        ],
+        "check-coding-standards": [
+            "@check-coding-standards/php-cs-fixer",
+            "@check-coding-standards/twigcs"
+        ],
+        "apply-coding-standards/php-cs-fixer": [
+            "php-cs-fixer --config=.php-cs-fixer.dist.php fix"
+        ],
+        "apply-coding-standards": [
+            "@apply-coding-standards/php-cs-fixer"
+        ],
+        "code-analysis/phpstan": [
+            "phpstan analyse src tests"
+        ],
+        "code-analysis/psalm": [
+            "psalm src tests"
+        ],
+        "code-analysis": [
+            "@code-analysis/phpstan",
+            "@code-analysis/psalm"
+        ]
+    },
+    "conflict": {
+        "symfony/symfony": "*"
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": false,
+            "require": "5.4.*"
+        }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/theofidry/AliceBundle"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/itk-dev/datafordeler-php-client"
+        }
+    ]
 }
