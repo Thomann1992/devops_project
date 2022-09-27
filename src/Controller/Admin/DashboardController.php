@@ -71,6 +71,7 @@ class DashboardController extends AbstractDashboardController
             ->setPermission(Action::NEW, 'ROLE_MODERATOR')
             ->setPermission(Action::EDIT, 'ROLE_MODERATOR')
             ->setPermission(Action::DELETE, 'ROLE_MODERATOR')
-            ->setPermission(Action::BATCH_DELETE, 'ROLE_MODERATOR');
+            ->setPermission(Action::BATCH_DELETE, 'ROLE_MODERATOR')
+        ;
     }
 }

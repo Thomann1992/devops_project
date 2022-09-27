@@ -65,10 +65,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->Departments = new ArrayCollection();
     }
 
-    public function getUsername(): ?string
-    {
-        return $this->email;
-    }
+    // public function getUsername(): ?string
+    // {
+    //     return $this->email;
+    // }
 
     public function getId(): ?int
     {
@@ -171,7 +171,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getSalt()
-    {
-    }
+    // public function getSalt()
+    // {
+    // }
 }

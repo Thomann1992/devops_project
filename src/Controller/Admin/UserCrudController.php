@@ -49,7 +49,8 @@ class UserCrudController extends AbstractCrudController
         return $crud
             ->setEntityLabelInSingular('User')
             ->setEntityLabelInPlural('Users')
-            ->showEntityActionsInlined();
+            ->showEntityActionsInlined()
+        ;
     }
 
     public function configureActions(Actions $actions): Actions
@@ -58,7 +59,8 @@ class UserCrudController extends AbstractCrudController
             ->setPermission(Action::EDIT, 'ROLE_ADMIN')
             ->setPermission(Action::NEW, 'ROLE_ADMIN')
             ->setPermission(ACTION::DELETE, 'ROLE_ADMIN')
-            ->setPermission(ACTION::BATCH_DELETE, 'ROLE_ADMIN');
+            ->setPermission(ACTION::BATCH_DELETE, 'ROLE_ADMIN')
+        ;
     }
 
     public function configureFields(string $pageName): iterable
@@ -118,7 +120,8 @@ class UserCrudController extends AbstractCrudController
     {
         return parent::configureFilters($filters)
             ->add('id')
-            ->add('email');
+            ->add('email')
+        ;
     }
 
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder

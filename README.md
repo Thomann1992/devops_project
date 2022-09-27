@@ -53,10 +53,6 @@ To get a local copy up and running follow these steps.
    php bin/console hautelook:fixtures:load
    ```
 
-6. ????
-
-7. Profit
-
 You should now be able to browse to the application
 
 ```sh
@@ -67,3 +63,9 @@ symfony server:start -d
 A user with admin permissions gets created when fixtures are run. It's credentials are:  
 Username: admin@admin.com  
 Password: 123123
+
+## Coding standards
+To test that the code follows the coding standards decided upon for this project the following command can be used
+```sh
+docker-compose exec phpfpm composer apply-coding-standards;
+```

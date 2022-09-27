@@ -31,7 +31,8 @@ class DescriptionCrudController extends AbstractCrudController
         return $crud
             ->setEntityLabelInSingular('Description')
             ->setEntityLabelInPlural('Descriptions')
-            ->showEntityActionsInlined();
+            ->showEntityActionsInlined()
+        ;
     }
 
     public function configureFields(string $pageName): iterable
@@ -78,7 +79,8 @@ class DescriptionCrudController extends AbstractCrudController
             ->add('OnePassword')
             ->add('Departments')
             ->add('created')
-            ->add('updated');
+            ->add('updated')
+        ;
     }
 
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
@@ -98,7 +100,8 @@ class DescriptionCrudController extends AbstractCrudController
         if (!$this->isGranted('ROLE_ADMIN')) {
             $qb
                 ->andWhere('entity.id in (:descriptionIds)')
-                ->setParameter('descriptionIds', $descriptions);
+                ->setParameter('descriptionIds', $descriptions)
+            ;
         }
 
         return $qb;

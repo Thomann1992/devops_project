@@ -80,6 +80,9 @@
             "config/packages/fos_ckeditor.yaml"
         ]
     },
+    "friendsoftwig/twigcs": {
+        "version": "v5.0.0"
+    },
     "hautelook/alice-bundle": {
         "version": "2.11",
         "recipe": {

@@ -68,7 +68,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
                 WHERE LOWER(u.email) = :query'
         )
             ->setParameter('query', strtolower($usernameOrEmail))
-            ->getOneOrNullResult();
+            ->getOneOrNullResult()
+        ;
     }
 
     public function loadUserByUsername(string $username): ?User
@@ -82,7 +83,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
                 WHERE LOWER(u.email) = :query'
         )
             ->setParameter('query', strtolower($username))
-            ->getOneOrNullResult();
+            ->getOneOrNullResult()
+        ;
     }
 }
 

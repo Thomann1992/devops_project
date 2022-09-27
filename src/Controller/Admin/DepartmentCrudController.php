@@ -28,7 +28,8 @@ class DepartmentCrudController extends AbstractCrudController
         return $crud
             ->setEntityLabelInSingular('Department')
             ->setEntityLabelInPlural('Departments')
-            ->showEntityActionsInlined();
+            ->showEntityActionsInlined()
+        ;
     }
 
     public function configureFields(string $pageName): iterable
@@ -54,7 +55,8 @@ class DepartmentCrudController extends AbstractCrudController
     {
         return parent::configureFilters($filters)
             ->add('id')
-            ->add('departmentName');
+            ->add('departmentName')
+        ;
     }
 
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
@@ -64,7 +66,8 @@ class DepartmentCrudController extends AbstractCrudController
         if (!$this->isGranted('ROLE_ADMIN')) {
             $qb
                 ->andWhere('entity.id in (:ids)')
-                ->setParameter('ids', $this->getUser()->getDepartments());
+                ->setParameter('ids', $this->getUser()->getDepartments())
+            ;
         }
 
         return $qb;
