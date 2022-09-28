@@ -68,7 +68,7 @@ Password: 123123
 
 ## Coding standards
 
-Apply coding standards:
+Apply coding standards to php-files:
 
 ```sh
 docker-compose exec phpfpm composer apply-coding-standards
@@ -78,4 +78,10 @@ Check markdown docs:
 
 ```sh
 yarn markdownlint README.md docs
+```
+
+Apply coding standards to docs:
+
+```sh
+yarn coding-standards-apply/markdownlint
 ```
