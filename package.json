@@ -1,17 +1,8 @@
 {
-    "devDependencies": {
-        "markdownlint-cli": "^0.26.0"
-    },
-    "license": "UNLICENSED",
-    "private": true,
-    "scripts": {
-        "coding-standards-check/markdownlint": "yarn markdownlint --ignore LICENSE.md *.md docs/",
-        "coding-standards-check": "yarn coding-standards-check/markdownlint",
-        "coding-standards-apply/markdownlint": "yarn markdownlint --fix --ignore LICENSE.md *.md docs/",
-        "coding-standards-apply": "yarn coding-standards-apply/markdownlint"
-    },
-    "dependencies": {
-        "@fortawesome/fontawesome-free": "^5.15.3",
-        "yarn": "^1.22.10"
-    }
+  "devDependencies": {
+    "@symfony/webpack-encore": "^4.0.0"
+  },
+  "dependencies": {
+    "@babel/core": "^7.19.3"
+  }
 }
