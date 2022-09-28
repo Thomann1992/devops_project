@@ -5,11 +5,10 @@
     "license": "UNLICENSED",
     "private": true,
     "scripts": {
-        "dev-server": "encore dev-server",
-        "dev": "encore dev",
-        "watch": "encore dev --watch",
-        "build": "encore production --progress",
-        "check-coding-standards/stylelint": "stylelint --config=.stylelintrc.json 'assets/**/*.scss'"
+        "coding-standards-check/markdownlint": "yarn markdownlint --ignore LICENSE.md *.md docs/",
+        "coding-standards-check": "yarn coding-standards-check/markdownlint",
+        "coding-standards-apply/markdownlint": "yarn markdownlint --fix --ignore LICENSE.md *.md docs/",
+        "coding-standards-apply": "yarn coding-standards-apply/markdownlint"
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.15.3",
