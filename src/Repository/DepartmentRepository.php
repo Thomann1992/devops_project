@@ -18,8 +18,8 @@ class DepartmentRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Department::class);
-    }
+    parent::__construct($registry, Department::class);
+}
 
     public function add(Department $entity, bool $flush = false): void
     {
