@@ -63,14 +63,19 @@ symfony server:start -d
 
 A user with admin permissions gets created when fixtures are run.
 It's credentials are:\
-Username: admin@admin.com
+Username: admin@admin.com\
 Password: 123123
 
 ## Coding standards
 
-To test that the code follows the coding standards decided
-upon for this project the following command can be used
+Check code:
 
 ```sh
-docker-compose exec phpfpm composer apply-coding-standards;
+docker-compose exec phpfpm composer apply-coding-standards
+```
+
+Apply coding standards:
+
+```sh
+composer coding-standards-apply
 ```
