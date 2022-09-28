@@ -59,7 +59,7 @@ class DescriptionCrudController extends AbstractCrudController
             //     ->hideOnIndex(),
             AssociationField::new('Departments')
                 ->formatValue(function ($value, $entity) {
-                    return implode(', ', array_map(fn (Department $department, $entity) => $department->getDepartmentName()))
+                    return implode(', ', array_map(fn (Department $department) => $department->getDepartmentName()))
                 ;})
                 ->setTextAlign('left')
                 ->hideOnIndex(),
