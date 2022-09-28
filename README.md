@@ -71,11 +71,11 @@ Password: 123123
 Check code:
 
 ```sh
-docker-compose exec phpfpm composer apply-coding-standards
+docker-compose exec phpfpm composer check-coding-standards
 ```
 
 Apply coding standards:
 
 ```sh
-composer coding-standards-apply
+docker-compose exec phpfpm composer apply-coding-standards
 ```
