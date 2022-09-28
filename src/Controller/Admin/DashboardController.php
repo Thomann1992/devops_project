@@ -28,10 +28,10 @@ class DashboardController extends AbstractDashboardController
         return $this->redirect($url);
     }
 
-    public function configureUserMenu(UserInterface $user): UserMenu
-    {
-        return parent::configureUserMenu($user);
-    }
+    // public function configureUserMenu(UserInterface $user): UserMenu
+    // {
+    //     return parent::configureUserMenu($user);
+    // }
 
     public function configureDashboard(): Dashboard
     {

@@ -46,15 +46,21 @@ class DescriptionCrudController extends AbstractCrudController
             UrlField::new('URL'),
             UrlField::new('OnePassword', '1password')
                 ->setSortable(true),
+            // AssociationField::new('Departments')
+            //     ->formatValue(function ($value, $entity) {
+            //         $str = $entity->getDepartments()[0];
+            //         for ($i = 1; $i < $entity->getDepartments()->count(); ++$i) {
+            //             $str = $str.', '.$entity->getDepartments()[$i];
+            //         }
+
+            //         return $str;
+            //     })
+            //     ->setTextAlign('left')
+            //     ->hideOnIndex(),
             AssociationField::new('Departments')
                 ->formatValue(function ($value, $entity) {
-                    $str = $entity->getDepartments()[0];
-                    for ($i = 1; $i < $entity->getDepartments()->count(); ++$i) {
-                        $str = $str.', '.$entity->getDepartments()[$i];
-                    }
-
-                    return $str;
-                })
+                    return implode(', ', array_map(fn (Department $department, $entity) => $department->getDepartmentName()))
+                ;})
                 ->setTextAlign('left')
                 ->hideOnIndex(),
             TextareaField::new('additionalInfo')

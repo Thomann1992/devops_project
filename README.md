@@ -27,7 +27,7 @@ To get a local copy up and running follow these steps.
 
    ```shell
    git clone git@github.com:Thomann1992/devops_project.git devops_projekt
-   ````
+   ```
 
 2. Enter the newly created project directory
 
@@ -68,6 +68,12 @@ Password: 123123
 
 ## Coding standards
 
+Check the coding standards with:
+
+```sh
+docker-compose exec phpfpm composer check-coding-standards
+```
+
 Apply coding standards to php-files:
 
 ```sh
@@ -77,7 +83,7 @@ docker-compose exec phpfpm composer apply-coding-standards
 Check markdown docs:
 
 ```sh
-yarn markdownlint README.md docs
+yarn coding-standards-apply/markdownlint
 ```
 
 Apply coding standards to docs:

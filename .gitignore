@@ -24,10 +24,6 @@
 /.php-cs-fixer.cache
 ###< friendsofphp/php-cs-fixer ###
 
-###> DS_Store ###
-.DS_Store
-###< DS_Store ###
-
 ###> vscode ###
 .vscode
 ###< vscode ###
