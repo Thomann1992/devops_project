@@ -68,14 +68,14 @@ Password: 123123
 
 ## Coding standards
 
-Check code:
-
-```sh
-docker-compose exec phpfpm composer check-coding-standards
-```
-
 Apply coding standards:
 
 ```sh
 docker-compose exec phpfpm composer apply-coding-standards
+```
+
+Check markdown docs:
+
+```sh
+yarn markdownlint README.md docs
 ```
