@@ -28,6 +28,8 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Department;
+
 
 class UserCrudController extends AbstractCrudController
 {
@@ -73,14 +75,9 @@ class UserCrudController extends AbstractCrudController
                 ->setPermission('ROLE_MODERATOR'),
             EmailField::new('email'),
             AssociationField::new('Departments')
-                ->formatValue(function ($value, $entity) {
-                    $str = $entity->getDepartments()[0];
-                    for ($i = 1; $i < $entity->getDepartments()->count(); ++$i) {
-                        $str = $str.', '.$entity->getDepartments()[$i];
-                    }
-
-                    return $str;
-                })
+            ->formatValue(function ($value, $entity) {
+                return implode(', ', array_map(fn (Department $department) => $department->getDepartmentName(), $entity->getDepartments()));
+            })
                 ->setTextAlign('left'),
             ChoiceField::new('roles')
                 ->setChoices(array_combine($roles, $roles))

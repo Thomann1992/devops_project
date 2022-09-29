@@ -13,14 +13,5 @@
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.15.3",
         "yarn": "^1.22.10"
-<<<<<<< HEAD
-    },
-    "devDependencies": {
-        "@symfony/webpack-encore": "^4.0.0"
-    },
-    "dependencies": {
-        "@babel/core": "^7.19.3"
-=======
->>>>>>> parent of 5085e242 (Installing encore)
     }
 }

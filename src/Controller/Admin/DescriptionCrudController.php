@@ -18,6 +18,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
+use App\Entity\Department;
+
 
 class DescriptionCrudController extends AbstractCrudController
 {
@@ -46,21 +48,10 @@ class DescriptionCrudController extends AbstractCrudController
             UrlField::new('URL'),
             UrlField::new('OnePassword', '1password')
                 ->setSortable(true),
-            // AssociationField::new('Departments')
-            //     ->formatValue(function ($value, $entity) {
-            //         $str = $entity->getDepartments()[0];
-            //         for ($i = 1; $i < $entity->getDepartments()->count(); ++$i) {
-            //             $str = $str.', '.$entity->getDepartments()[$i];
-            //         }
-
-            //         return $str;
-            //     })
-            //     ->setTextAlign('left')
-            //     ->hideOnIndex(),
             AssociationField::new('Departments')
                 ->formatValue(function ($value, $entity) {
-                    return implode(', ', array_map(fn (Department $department) => $department->getDepartmentName()))
-                ;})
+                    return implode(', ', array_map(fn (Department $department) => $department->getDepartmentName(), $entity->getDepartments()));
+                })
                 ->setTextAlign('left')
                 ->hideOnIndex(),
             TextareaField::new('additionalInfo')
