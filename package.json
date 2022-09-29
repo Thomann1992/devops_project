@@ -13,12 +13,12 @@
         "coding-standards-check/markdownlint": "yarn markdownlint --ignore LICENSE.md *.md docs/",
         "coding-standards-check": "yarn coding-standards-check/markdownlint",
         "coding-standards-apply/markdownlint": "yarn markdownlint --fix --ignore LICENSE.md *.md docs/",
-        "coding-standards-apply": "yarn coding-standards-apply/markdownlint",
-        "dev": "webpack serve --config webpack.dev.js --progress"
+        "coding-standards-apply": "yarn coding-standards-apply/markdownlint"
     },
     "dependencies": {
         "@babel/core": "^7.19.3",
         "@fortawesome/fontawesome-free": "^5.15.3",
+        "core-js": "^3.25.3",
         "webpack": "^5.74.0",
         "webpack-command": "^0.5.1",
         "webpack-dev-server": "^4.11.1",
