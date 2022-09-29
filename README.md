@@ -83,7 +83,7 @@ docker-compose exec phpfpm composer apply-coding-standards
 Check markdown docs:
 
 ```sh
-yarn coding-standards-apply/markdownlint
+yarn coding-standards-check/markdownlint
 ```
 
 Apply coding standards to docs:
