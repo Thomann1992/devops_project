@@ -32,7 +32,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserCrudController extends AbstractCrudController
 {
-    #[Route('test', name: 'app_test')]
     private UserPasswordHasherInterface $passwordEncoder;
 
     public function __construct(UserPasswordHasherInterface $passwordEncoder)

@@ -36,7 +36,7 @@ services:
       - COMPOSER_VERSION=2
       - PHP_IDE_CONFIG=serverName=localhost
     depends_on:
-      - database
+      - mariadb
     volumes:
       - nfsApp:/app:delegated
 

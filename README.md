@@ -91,3 +91,25 @@ Apply coding standards to docs:
 ```sh
 yarn coding-standards-apply/markdownlint
 ```
+
+## Code analysis
+
+Analyse code with the following commands:
+
+With phpstan:
+
+```sh
+docker-compose exec phpfpm composer code-analysis/phpstan
+```
+
+with psalm:
+
+```sh
+docker-compose exec phpfpm composer code-analysis/psalm
+```
+
+with both:
+
+```sh
+docker-compose exec phpfpm composer code-analysis
+```
