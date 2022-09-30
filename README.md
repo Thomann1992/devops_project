@@ -50,13 +50,13 @@ To get a local copy up and running follow these steps.
 5. Load fixtures
 
    ```sh
-   php bin/console hautelook:fixtures:load
+   docker-compose exec phpfpm bin/console hautelook:fixtures:load
    ```
 
 You should now be able to browse to the application
 
 ```sh
-symfony server:start -d
+echo "http://$(docker-compose port nginx 80)"
 ```
 
 ## Admin user
