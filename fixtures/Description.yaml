@@ -4,9 +4,7 @@ App\Entity\Description:
         description: <text()>
         url: <URL()>
         onePassword: <URL()>
-        departments: '<numberBetween(0, 5)>x @department*'
+        departments: "<numberBetween(0, 5)>x @department*"
         additionalInfo: <text()>
-        createdby: '@user*'
-        updatedby: '@user*'
-
-
+        createdby: "@user*"
+        updatedby: "@user*"
