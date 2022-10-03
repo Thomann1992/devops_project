@@ -71,25 +71,25 @@ Password: 123123
 Check the coding standards with:
 
 ```sh
-docker-compose exec phpfpm composer check-coding-standards
+docker-compose exec phpfpm composer coding-standards-check
 ```
 
 Apply coding standards to php-files:
 
 ```sh
-docker-compose exec phpfpm composer apply-coding-standards
+docker-compose exec phpfpm composer coding-standards-apply
 ```
 
 Check markdown docs:
 
 ```sh
-yarn coding-standards-check/markdownlint
+yarn coding-standards-check
 ```
 
 Apply coding standards to docs:
 
 ```sh
-yarn coding-standards-apply/markdownlint
+yarn coding-standards-apply
 ```
 
 ## Code analysis
