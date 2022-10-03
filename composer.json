@@ -91,13 +91,13 @@
         "post-update-cmd": [
             "@auto-scripts"
         ],
-        "coding-standards-check/php-cs-fixer": [
+        "check-coding-standards/php-cs-fixer": [
             "php-cs-fixer --config=.php-cs-fixer.dist.php fix --dry-run"
         ],
-        "coding-standards-check": [
-            "@coding-standards-check/php-cs-fixer"
+        "check-coding-standards": [
+            "@check-coding-standards/php-cs-fixer"
         ],
-        "coding-standards-apply/php-cs-fixer": [
+        "apply-coding-standards/php-cs-fixer": [
             "php-cs-fixer --config=.php-cs-fixer.dist.php fix"
         ],
         "apply-coding-standards": [
