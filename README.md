@@ -102,13 +102,13 @@ With phpstan:
 docker-compose exec phpfpm composer code-analysis/phpstan
 ```
 
-with psalm:
+With psalm:
 
 ```sh
 docker-compose exec phpfpm composer code-analysis/psalm
 ```
 
-with both:
+With both:
 
 ```sh
 docker-compose exec phpfpm composer code-analysis
