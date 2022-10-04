@@ -10,10 +10,9 @@ use App\Entity\User;
 trait BlameableEntity
 {
     /**
-     * Set createdBy
+     * Set createdBy.
      *
-     * @param User $createdBy
-     * @return Object
+     * @return object
      */
     public function setCreatedBy(User $createdBy)
     {
@@ -23,7 +22,7 @@ trait BlameableEntity
     }
 
     /**
-     * Get createdBy
+     * Get createdBy.
      *
      * @return User
      */
@@ -33,10 +32,9 @@ trait BlameableEntity
     }
 
     /**
-     * Set updatedBy
+     * Set updatedBy.
      *
-     * @param User $updatedBy
-     * @return Object
+     * @return object
      */
     public function setUpdatedBy(User $updatedBy)
     {
@@ -46,7 +44,7 @@ trait BlameableEntity
     }
 
     /**
-     * Get updatedBy
+     * Get updatedBy.
      *
      * @return User
      */

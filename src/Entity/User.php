@@ -2,17 +2,16 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\BlameableEntity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use App\Entity\Department;
-use App\Entity\Traits\BlameableEntity;
-use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -38,7 +37,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Gedmo\Blameable(on="create")
      * @ORM\Column(type="string")
      */
-    #[ORM\Column(type: Types::STRING,)]
+    #[ORM\Column(type: Types::STRING, nullable: true)]
     #[Gedmo\Blameable(on: 'create')]
     private $createdBy;
 
@@ -57,7 +56,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $password = null;
-
 
     #[ORM\ManyToMany(targetEntity: Department::class, inversedBy: 'users')]
     private Collection $Departments;
@@ -133,7 +131,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see UserInterface
      */
-
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
