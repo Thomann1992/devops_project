@@ -5,11 +5,11 @@ App\Entity\User:
     user_{1..50}:
         email (unique): <email()>
         password: <password(40,255)>
-        departments: '<numberBetween(0, 3)>x @department*'
-        roles: '<numberBetween(0, 1)>x <randomElement([ROLE_ADMIN, ROLE_MODERATOR])>'
+        departments: "<numberBetween(0, 3)>x @department*"
+        roles: "<numberBetween(0, 1)>x <randomElement([ROLE_ADMIN, ROLE_MODERATOR])>"
 
     AdminUser:
         email (unique): admin@admin.com
         password: <{hash}>
-        departments: '<numberBetween(0, 3)>x @department*'
-        roles: '<numberBetween(3, 3)>x <randomElement([ROLE_ADMIN, ROLE_MODERATOR])>'
+        departments: "<numberBetween(0, 3)>x @department*"
+        roles: "<numberBetween(3, 3)>x <randomElement([ROLE_ADMIN, ROLE_MODERATOR])>"
