@@ -3,20 +3,17 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Department;
-use App\Entity\User;
 use App\Entity\Description;
+use App\Entity\User;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
-use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
-use Symfony\Component\Security\Core\User\UserInterface;
-
 
 class DashboardController extends AbstractDashboardController
 {
@@ -27,11 +24,6 @@ class DashboardController extends AbstractDashboardController
         $url = $routeBuilder->setController(DescriptionCrudController::class)->generateUrl();
 
         return $this->redirect($url);
-    }
-
-    public function configureUserMenu(UserInterface $user): UserMenu
-    {
-        return parent::configureUserMenu($user);
     }
 
     public function configureDashboard(): Dashboard
@@ -56,6 +48,7 @@ class DashboardController extends AbstractDashboardController
             ->setPermission(Action::NEW, 'ROLE_MODERATOR')
             ->setPermission(Action::EDIT, 'ROLE_MODERATOR')
             ->setPermission(Action::DELETE, 'ROLE_MODERATOR')
-            ->setPermission(Action::BATCH_DELETE, 'ROLE_MODERATOR');
+            ->setPermission(Action::BATCH_DELETE, 'ROLE_MODERATOR')
+        ;
     }
 }

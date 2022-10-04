@@ -1,4 +1,6 @@
 {
+    "name": "thomann1992/devops_project",
+    "description": "Application for managing some data",
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",
@@ -43,6 +45,7 @@
         "symfony/twig-bundle": "6.0.*",
         "symfony/validator": "6.0.*",
         "symfony/web-link": "6.0.*",
+        "symfony/webpack-encore-bundle": "^1.15",
         "symfony/yaml": "6.0.*",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0"
@@ -87,6 +90,28 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "coding-standards-check/php-cs-fixer": [
+            "php-cs-fixer --config=.php-cs-fixer.dist.php fix --dry-run"
+        ],
+        "coding-standards-check": [
+            "@coding-standards-check/php-cs-fixer"
+        ],
+        "coding-standards-apply/php-cs-fixer": [
+            "php-cs-fixer --config=.php-cs-fixer.dist.php fix"
+        ],
+        "apply-coding-standards": [
+            "@apply-coding-standards/php-cs-fixer"
+        ],
+        "code-analysis/phpstan": [
+            "phpstan analyse src tests"
+        ],
+        "code-analysis/psalm": [
+            "psalm src tests"
+        ],
+        "code-analysis": [
+            "@code-analysis/phpstan",
+            "@code-analysis/psalm"
         ]
     },
     "conflict": {
@@ -101,7 +126,9 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4",
+        "friendsofphp/php-cs-fixer": "^3.8",
         "hautelook/alice-bundle": "^2.11",
+        "phpstan/phpstan": "^1.8",
         "phpunit/phpunit": "^9.5",
         "symfony/browser-kit": "6.0.*",
         "symfony/css-selector": "6.0.*",
@@ -109,6 +136,13 @@
         "symfony/maker-bundle": "^1.45",
         "symfony/phpunit-bridge": "^6.1",
         "symfony/stopwatch": "6.0.*",
-        "symfony/web-profiler-bundle": "6.0.*"
-    }
+        "symfony/web-profiler-bundle": "6.0.*",
+        "vimeo/psalm": "^4.27"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/theofidry/AliceBundle"
+        }
+    ]
 }

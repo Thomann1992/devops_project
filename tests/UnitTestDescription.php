@@ -2,10 +2,9 @@
 
 namespace App\tests;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use App\Entity\User;
 use App\Entity\Description;
-
+use App\Entity\User;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class AdminControllerTest extends WebTestCase
 {
@@ -20,6 +19,5 @@ class AdminControllerTest extends WebTestCase
 
         $testUserAdmin = new User();
         $testUserAdmin->setRoles(['ROLE_ADMIN']);
-
     }
 }
