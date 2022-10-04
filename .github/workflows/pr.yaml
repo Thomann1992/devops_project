@@ -89,9 +89,9 @@ jobs:
           key: ${{ matrix.php }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ matrix.php }}-composer-
       - name: Install Dependencies
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+        run: docker-compose exec phpfpm composer install
       - name: php-cs-fixer
-        run: phpdbg -qrr ./vendor/bin/php-cs-fixer fix
+        run: docker-compose exec phpfpm composer coding-standards-check
 
   markdownlint:
     runs-on: ubuntu-20.04
