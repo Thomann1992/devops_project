@@ -49,7 +49,7 @@ class DescriptionCrudController extends AbstractCrudController
                 ->setSortable(true),
             AssociationField::new('Departments')
                 ->formatValue(function ($value, $entity) {
-                    return implode(', ', array_map(fn (Department $department) => $department->getDepartmentName(), $entity->getDepartments()));
+                    return implode(', ', $entity->getDepartments()->getValues());
                 })
                 ->setTextAlign('left')
                 ->hideOnIndex(),
