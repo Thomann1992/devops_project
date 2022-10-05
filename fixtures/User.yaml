@@ -1,5 +1,5 @@
 parameters:
-    hash: $2y$13$SHyTN8lXhB8Tbu6hTlJpr.VLK45v6ZTJflMQoosmg6sQnrapfVEnO
+    hash: $2y$13$iQFvkSKTHGA/Z0ZkNR1hbOs0dkjIPyVrJEWTb88By/E2Lpnm0p52i
 
 App\Entity\User:
     user_{1..50}:
