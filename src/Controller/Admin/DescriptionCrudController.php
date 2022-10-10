@@ -63,6 +63,8 @@ class DescriptionCrudController extends AbstractCrudController
                 ->onlyOnDetail(),
             Field::new('updatedBy')
                 ->onlyOnDetail(),
+            Field::new('Github_URL'),
+            Field::new('Latest_Commit_date')
         ];
     }
 

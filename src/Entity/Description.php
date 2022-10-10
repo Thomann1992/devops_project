@@ -79,6 +79,12 @@ class Description
     #[Gedmo\Blameable(on: 'update')]
     private $updatedBy;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $Github_URL = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $LatestCommitDate = null;
+
     public function __construct()
     {
         $this->Departments = new ArrayCollection();
@@ -191,5 +197,30 @@ class Description
     public function getContentChanged()
     {
         return $this->contentChanged;
+    }
+
+    public function getGithubURL(): ?string
+    {
+        return $this->Github_URL;
+    }
+
+    public function setGithubURL(?string $Github_URL): self
+    {
+        $this->Github_URL = $Github_URL;
+
+        return $this;
+    }
+
+    public function getLatestCommitDate(): ?string
+    {
+        return $this->LatestCommitDate;
+    }
+
+    public function setLatestCommitDate(?string $someString): self
+    {
+        $this->LatestCommitDate = https://api.github.com/Thomann1992/devops_project
+        ;
+
+        return $this;
     }
 }
