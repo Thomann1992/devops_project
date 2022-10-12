@@ -2,7 +2,6 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Department;
 use App\Entity\Description;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
@@ -64,7 +63,7 @@ class DescriptionCrudController extends AbstractCrudController
             Field::new('updatedBy')
                 ->onlyOnDetail(),
             Field::new('Github_URL'),
-            Field::new('Latest_Commit_date')
+            Field::new('Latest_Commit_date'),
         ];
     }
 

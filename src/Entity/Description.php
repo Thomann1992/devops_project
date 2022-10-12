@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 use Gedmo\Blameable\Traits\Blameable;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -216,10 +217,26 @@ class Description
         return $this->LatestCommitDate;
     }
 
-    public function setLatestCommitDate(?string $someString): self
+    // public function setLatestCommitDate(?string $LatestCommitDate): self
+    // {
+    //     $this->LatestCommitDate = $LatestCommitDate;
+
+    //     return $this;
+    // }
+
+    public function setLatestCommitDate(?string $test): self
     {
-        $this->LatestCommitDate = https://api.github.com/Thomann1992/devops_project
-        ;
+        try {
+            $client = new \Github\Client();
+
+            $commit = $client->api('repo')->commits()->all('ITK-dev', $this->getGithubURL(), ['sha' => 'develop']);
+            
+            $commit = $commit[0]['commit']['author']['date'];
+
+            $this->LatestCommitDate = $commit;
+        } catch (Exception $e) {
+            echo 'Something went wrong';
+        }
 
         return $this;
     }
