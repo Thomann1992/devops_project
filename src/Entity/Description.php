@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Exception;
 use Gedmo\Blameable\Traits\Blameable;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Exception;
 
 #[ORM\Entity(repositoryClass: DescriptionRepository::class)]
 class Description
@@ -81,10 +81,10 @@ class Description
     private $updatedBy;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $Github_URL = null;
+    private ?string $LatestCommitDate = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $LatestCommitDate = null;
+    private ?string $DefaultBranch = 'develop';
 
     public function __construct()
     {
@@ -200,42 +200,49 @@ class Description
         return $this->contentChanged;
     }
 
-    public function getGithubURL(): ?string
-    {
-        return $this->Github_URL;
-    }
-
-    public function setGithubURL(?string $Github_URL): self
-    {
-        $this->Github_URL = $Github_URL;
-
-        return $this;
-    }
-
     public function getLatestCommitDate(): ?string
     {
         return $this->LatestCommitDate;
     }
 
-    // public function setLatestCommitDate(?string $LatestCommitDate): self
+    public function setLatestCommitDate(?string $LatestCommitDate): self
+    {
+        $this->LatestCommitDate = $LatestCommitDate;
+
+        return $this;
+    }
+
+    // public function setLatestCommitDate(?string $test): self
     // {
-    //     $this->LatestCommitDate = $LatestCommitDate;
+    //     // try {
+    //         $client = new \Github\Client();
+
+    //         $commit = $client->api('repo')->commits()->all('ITK-dev', $this->getName(), ['sha' => $this->getDefaultBranch()]);
+    //         // $commit = $client->api('repo')->commits()->all('ITK-dev', $this->getName(), ['sha' => 'develop']);
+
+    //         // $commit = $client->api('repo')->commits()->all('ITK-dev', $this->getGithubURL(), ['sha' => 'develop']);
+
+    //         $commit = $commit[0]['commit']['author']['date'];
+
+    //         $this->LatestCommitDate = $commit;
+    //     // } catch (Exception $e) {
+    //     //     echo 'Something went wrong';
+    //     // }
 
     //     return $this;
     // }
 
-    public function setLatestCommitDate(?string $test): self
+    public function getDefaultBranch(): ?string
     {
-        try {
-            $client = new \Github\Client();
+        return $this->DefaultBranch;
+    }
 
-            $commit = $client->api('repo')->commits()->all('ITK-dev', $this->getGithubURL(), ['sha' => 'develop']);
-            
-            $commit = $commit[0]['commit']['author']['date'];
-
-            $this->LatestCommitDate = $commit;
-        } catch (Exception $e) {
-            echo 'Something went wrong';
+    public function setDefaultBranch(?string $DefaultBranch): self
+    {
+        if ($DefaultBranch == null) {
+            $this->DefaultBranch = 'develop';
+        } else {
+            $this->DefaultBranch = $DefaultBranch;
         }
 
         return $this;

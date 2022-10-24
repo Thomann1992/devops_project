@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Description;
+use App\Entity\User;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
@@ -18,6 +19,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
+use Symfony\Component\HttpFoundation\Response;
+use Exception;
+use Github\AuthMethod;
+
 
 class DescriptionCrudController extends AbstractCrudController
 {
@@ -41,7 +46,8 @@ class DescriptionCrudController extends AbstractCrudController
             IdField::new('id')
                 ->onlyOnDetail(),
             TextField::new('Name')
-                ->setSortable(true),
+                ->setSortable(true)
+                ->setHelp('This should be the same as the Github repository'),
             TextareaField::new('description'),
             UrlField::new('URL'),
             UrlField::new('OnePassword', '1password')
@@ -62,7 +68,9 @@ class DescriptionCrudController extends AbstractCrudController
                 ->onlyOnDetail(),
             Field::new('updatedBy')
                 ->onlyOnDetail(),
-            Field::new('Github_URL'),
+            // Field::new('Github_URL'),
+            Field::new('DefaultBranch')
+                ->hideOnIndex(),
             Field::new('Latest_Commit_date'),
         ];
     }
@@ -84,6 +92,46 @@ class DescriptionCrudController extends AbstractCrudController
     {
         $qb = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
 
+        $descriptions = $this->getCurrentUsersDescriptions();
+
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $qb
+                ->andWhere('entity.id in (:descriptionIds)')
+                ->setParameter('descriptionIds', $descriptions)
+            ;
+        }
+        $this->updateAll();
+
+        return $qb;
+    }
+
+    public function updateAll()
+    {
+        $client = new \Github\Client();
+
+        // $client->authenticate('thomann1992', 'Thomann123.', 'Github\AuthMethod::CLIENT_ID');
+        // $client->authenticate('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', null, \Github\Client::AUTH_URL_TOKEN);
+        // $client->authenticate("thomann1992", "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", Github\AuthMethod::ACCESS_TOKEN    );
+
+
+        $descriptions = $this->getCurrentUsersDescriptions();
+
+        foreach ($descriptions as $description){
+            try {
+                $commit = $client->api('repo')->commits()->all('itk-dev', $description->getName(), ['sha' => $description->getDefaultBranch()]);
+
+                // $commit = $client->api('repo')->commits()->all('thomann1992', 'devops_project', ['sha' => 'develop']);
+
+                $commit = $commit[0]['commit']['author']['date'];
+                $description->setLatestCommitDate($commit);
+            } catch (Exception $e){
+            // echo $e;
+            }
+        }
+    }
+
+    public function getCurrentUsersDescriptions(): array
+    {
         $userDepartments = $this->getUser()->getDepartments();
 
         $descriptions = [];
@@ -94,13 +142,7 @@ class DescriptionCrudController extends AbstractCrudController
             }
         }
 
-        if (!$this->isGranted('ROLE_ADMIN')) {
-            $qb
-                ->andWhere('entity.id in (:descriptionIds)')
-                ->setParameter('descriptionIds', $descriptions)
-            ;
-        }
-
-        return $qb;
+        return $descriptions;
     }
+    
 }
