@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Description;
 use App\Entity\User;
+use App\Repository\DescriptionRepository;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
@@ -21,7 +22,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use Symfony\Component\HttpFoundation\Response;
 use Exception;
+use Github\Client;
 use Github\AuthMethod;
+use Doctrine\Persistence\ManagerRegistry;
 
 
 class DescriptionCrudController extends AbstractCrudController
@@ -100,6 +103,7 @@ class DescriptionCrudController extends AbstractCrudController
                 ->setParameter('descriptionIds', $descriptions)
             ;
         }
+
         $this->updateAll();
 
         return $qb;
@@ -109,10 +113,7 @@ class DescriptionCrudController extends AbstractCrudController
     {
         $client = new \Github\Client();
 
-        // $client->authenticate('thomann1992', 'Thomann123.', 'Github\AuthMethod::CLIENT_ID');
-        // $client->authenticate('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', null, \Github\Client::AUTH_URL_TOKEN);
-        // $client->authenticate("thomann1992", "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", Github\AuthMethod::ACCESS_TOKEN    );
-
+        $client->authenticate('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', '', \Github\AuthMethod::ACCESS_TOKEN);
 
         $descriptions = $this->getCurrentUsersDescriptions();
 
@@ -124,8 +125,9 @@ class DescriptionCrudController extends AbstractCrudController
 
                 $commit = $commit[0]['commit']['author']['date'];
                 $description->setLatestCommitDate($commit);
+
             } catch (Exception $e){
-            // echo $e;
+               echo $e;
             }
         }
     }
