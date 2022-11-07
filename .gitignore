@@ -40,6 +40,6 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
 ###> github_API ###
-# app.ini
+app.ini
 ###< github_API ###
 
