@@ -38,4 +38,15 @@ class DescriptionRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    // public function update(): void
+    // {
+    //     $descriptions = $this->findAll();
+
+    //     foreach ($descriptions as $description){
+    //         $description->setLatestCommitDate('test');
+
+    //     }
+    //     $this->getEntityManager()->flush();
+    // }
 }

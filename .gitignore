@@ -38,3 +38,8 @@ node_modules
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+
+###> github_API ###
+app.ini
+###< github_API ###
+
