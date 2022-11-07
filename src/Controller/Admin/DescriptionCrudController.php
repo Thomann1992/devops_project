@@ -25,7 +25,7 @@ use Exception;
 use Github\Client;
 use Github\AuthMethod;
 use Doctrine\Persistence\ManagerRegistry;
-
+use Symfony\Flex\GithubApi;
 
 class DescriptionCrudController extends AbstractCrudController
 {
@@ -113,15 +113,14 @@ class DescriptionCrudController extends AbstractCrudController
     {
         $client = new \Github\Client();
 
-        $client->authenticate('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', '', \Github\AuthMethod::ACCESS_TOKEN);
-
+        $ini = parse_ini_file('../app.ini');
+        
+        $client->authenticate($ini['Github_token'], '', \Github\AuthMethod::ACCESS_TOKEN);
         $descriptions = $this->getCurrentUsersDescriptions();
 
         foreach ($descriptions as $description){
             try {
                 $commit = $client->api('repo')->commits()->all('itk-dev', $description->getName(), ['sha' => $description->getDefaultBranch()]);
-
-                // $commit = $client->api('repo')->commits()->all('thomann1992', 'devops_project', ['sha' => 'develop']);
 
                 $commit = $commit[0]['commit']['author']['date'];
                 $description->setLatestCommitDate($commit);
