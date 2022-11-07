@@ -6,15 +6,12 @@ use App\Controller\Admin\DescriptionCrudController;
 use App\Entity\Description;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeCrudActionEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Exception;
-
 
 class LatestGitCommitSubscriber implements EventSubscriberInterface
 {
-
     public function onBeforeCrudActionEvent(BeforeCrudActionEvent $event): void
     {
-        $descriptionController = new DescriptionCrudController;
+        $descriptionController = new DescriptionCrudController();
 
         $descriptionController->updateAll();
         // DescriptionCrudController->updateAll();
@@ -30,8 +27,6 @@ class LatestGitCommitSubscriber implements EventSubscriberInterface
 
         // $qb = $em->createQueryBuilder();
         // $repository = $doctrine->getRepository(Description::class);
-            
-
 
         // $descriptions = $repository->findAll();
 
@@ -42,7 +37,6 @@ class LatestGitCommitSubscriber implements EventSubscriberInterface
         // ->setMaxResults(10);
     }
 
-
     public static function getSubscribedEvents(): array
     {
         return [
@@ -51,4 +45,3 @@ class LatestGitCommitSubscriber implements EventSubscriberInterface
         ];
     }
 }
-

@@ -3,8 +3,6 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Description;
-use App\Entity\User;
-use App\Repository\DescriptionRepository;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
@@ -20,12 +18,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
-use Symfony\Component\HttpFoundation\Response;
 use Exception;
-use Github\Client;
-use Github\AuthMethod;
-use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Flex\GithubApi;
 
 class DescriptionCrudController extends AbstractCrudController
 {
@@ -114,19 +107,18 @@ class DescriptionCrudController extends AbstractCrudController
         $client = new \Github\Client();
 
         $ini = parse_ini_file('../app.ini');
-        
+
         $client->authenticate($ini['Github_token'], '', \Github\AuthMethod::ACCESS_TOKEN);
         $descriptions = $this->getCurrentUsersDescriptions();
 
-        foreach ($descriptions as $description){
+        foreach ($descriptions as $description) {
             try {
                 $commit = $client->api('repo')->commits()->all('itk-dev', $description->getName(), ['sha' => $description->getDefaultBranch()]);
 
                 $commit = $commit[0]['commit']['author']['date'];
                 $description->setLatestCommitDate($commit);
-
-            } catch (Exception $e){
-               echo $e;
+            } catch (Exception $e) {
+                echo $e;
             }
         }
     }
@@ -145,5 +137,4 @@ class DescriptionCrudController extends AbstractCrudController
 
         return $descriptions;
     }
-    
 }

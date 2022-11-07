@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 use Gedmo\Blameable\Traits\Blameable;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Exception;
 
 #[ORM\Entity(repositoryClass: DescriptionRepository::class)]
 class Description
@@ -239,7 +239,7 @@ class Description
 
     public function setDefaultBranch(?string $DefaultBranch): self
     {
-        if ($DefaultBranch == null) {
+        if (null == $DefaultBranch) {
             $this->DefaultBranch = 'develop';
         } else {
             $this->DefaultBranch = $DefaultBranch;
