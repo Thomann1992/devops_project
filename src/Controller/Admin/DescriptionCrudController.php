@@ -6,6 +6,7 @@ use App\Entity\Description;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -19,6 +20,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use Exception;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 
 class DescriptionCrudController extends AbstractCrudController
 {
@@ -35,6 +37,15 @@ class DescriptionCrudController extends AbstractCrudController
             ->showEntityActionsInlined()
         ;
     }
+
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions
+            ->setPermission(Action::EDIT, 'ROLE_USER')
+            ->setPermission(Action::NEW, 'ROLE_USER')        
+        ;
+    }
+    
 
     public function configureFields(string $pageName): iterable
     {
@@ -99,27 +110,6 @@ class DescriptionCrudController extends AbstractCrudController
         }
         return $qb;
     }
-
-    // public function updateAll()
-    // {
-    //     $client = new \Github\Client();
-
-    //     $ini = parse_ini_file('../app.ini');
-
-    //     $client->authenticate($ini['Github_token'], '', \Github\AuthMethod::ACCESS_TOKEN);
-    //     $descriptions = $this->getCurrentUsersDescriptions();
-
-    //     foreach ($descriptions as $description) {
-    //         try {
-    //             $commit = $client->api('repo')->commits()->all('itk-dev', $description->getName(), ['sha' => $description->getDefaultBranch()]);
-
-    //             $commit = $commit[0]['commit']['author']['date'];
-    //             $description->setLatestCommitDate($commit);
-    //         } catch (Exception $e) {
-               
-    //         }
-    //     }
-    // }
 
     public function getCurrentUsersDescriptions(): array
     {

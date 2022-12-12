@@ -44,3 +44,4 @@ app.ini
 ###< github_API ###
 
 *.ini
+app.ini

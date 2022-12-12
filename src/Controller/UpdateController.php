@@ -26,9 +26,7 @@ class UpdateController extends AbstractController
         $entityManager->flush();
         $this->addFlash('updated', 'All descriptions has been updated');
         
-        return $this->redirectToRoute('admin');
-        // return new Response('Descriptions got updated');
-        
+        return $this->redirectToRoute('admin');        
     }
     
 
