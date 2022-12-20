@@ -215,7 +215,15 @@ class Description
         $commit = $client->api('repo')->commits()->all('itk-dev', $this->getName(), ['sha' => $this->getDefaultBranch()]);
 
         $commit = $commit[0]['commit']['author']['date'];
-        // $description->setLatestCommitDate($commit);
+
+        $commit = substr($commit, 0, 10);
+
+        // $arr = explode('-', $commit);
+
+        // $datestring = "$arr[2]/$arr[1]/$arr[0]";
+
+        // $date = strtotime('D/M/Y H:i:s', $datestring);
+
         $this->LatestCommitDate = $commit;
 
         return $this;
