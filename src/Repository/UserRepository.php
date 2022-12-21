@@ -78,11 +78,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $entityManager->createQuery(
             'SELECT u
                 FROM App\Entity\User u
-                -- WHERE u.username = :query
                 WHERE LOWER(u.email) = :query'
         )
             ->setParameter('query', strtolower($username))
             ->getOneOrNullResult()
         ;
     }
+    
 }

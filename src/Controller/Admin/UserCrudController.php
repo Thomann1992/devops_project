@@ -51,14 +51,6 @@ class UserCrudController extends AbstractCrudController
         ;
     }
 
-    public function createEntity(string $entityFqcn)
-    {
-        $user = new User();
-        // $user->createdBy($this->getUser());
-
-        return $user;
-    }
-
     public function configureActions(Actions $actions): Actions
     {
         return $actions

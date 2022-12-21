@@ -62,6 +62,8 @@ services:
 
   mailhog:
     image: itkdev/mailhog
+    container_name: test
+    restart: always
     networks:
       - app
       - frontend
