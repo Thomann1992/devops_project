@@ -3,10 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\DescriptionRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 use Gedmo\Blameable\Traits\Blameable;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -79,8 +81,11 @@ class Description
     #[Gedmo\Blameable(on: 'update')]
     private $updatedBy;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $LatestCommitDate = null;
+    /**
+     *  @var DateTime|null
+     */
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private $LatestCommitDate = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $DefaultBranch = 'develop';
@@ -199,7 +204,7 @@ class Description
         return $this->contentChanged;
     }
 
-    public function getLatestCommitDate(): ?string
+    public function getLatestCommitDate()
     {
         return $this->LatestCommitDate;
     }
@@ -211,20 +216,23 @@ class Description
         $ini = parse_ini_file('../app.ini');
 
         $client->authenticate($ini['Github_token'], '', \Github\AuthMethod::ACCESS_TOKEN);
+        try {
+            $commit = $client->api('repo')->commits()->all('itk-dev', $this->getName(), ['sha' => $this->getDefaultBranch()]);
 
-        $commit = $client->api('repo')->commits()->all('itk-dev', $this->getName(), ['sha' => $this->getDefaultBranch()]);
+            $commit = $commit[0]['commit']['author']['date'];
 
-        $commit = $commit[0]['commit']['author']['date'];
+            $commit = substr($commit, 0, 10);
 
-        $commit = substr($commit, 0, 10);
+            $arr = explode('-', $commit);
 
-        // $arr = explode('-', $commit);
+            $s = "$arr[2]/$arr[1]/$arr[0]";
+            $date = date_create_from_format('d/m/Y', $s);
+            $date->getTimestamp();
 
-        // $datestring = "$arr[2]/$arr[1]/$arr[0]";
-
-        // $date = strtotime('D/M/Y H:i:s', $datestring);
-
-        $this->LatestCommitDate = $commit;
+            $this->LatestCommitDate = $date;
+        } catch (Exception $e) {
+            $this->LatestCommitDate = null;
+        }
 
         return $this;
     }

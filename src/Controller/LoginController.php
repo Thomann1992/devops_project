@@ -22,7 +22,6 @@ class LoginController extends AbstractController
             'username_label' => 'Username (email)',
             'forgot_password_enabled' => true,
             'forgot_password_path' => $this->generateUrl('app_forgot_password_request', ['...' => '...']),
-
         ]);
     }
 }

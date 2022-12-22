@@ -38,5 +38,4 @@ class DescriptionRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-    
 }
