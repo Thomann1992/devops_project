@@ -75,8 +75,9 @@ class DescriptionCrudController extends AbstractCrudController
                 ->onlyOnDetail(),
             Field::new('DefaultBranch')
                 ->hideOnIndex(),
-            DateField::new('Latest_Commit_date')
-                ->hideOnForm(),
+            DateField::new('LatestCommitDate')
+                ->hideOnForm()
+                ->setSortable(true),
         ];
     }
 
