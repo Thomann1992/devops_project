@@ -63,8 +63,6 @@ class UserCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        $roles = ['ROLE_ADMIN', 'ROLE_MODERATOR', 'ROLE_USER'];
-
         return [
             IdField::new('id')
                 ->onlyOnDetail()
@@ -76,7 +74,10 @@ class UserCrudController extends AbstractCrudController
             })
                 ->setTextAlign('left'),
             ChoiceField::new('roles')
-                ->setChoices(array_combine($roles, $roles))
+                ->setChoices([
+                    'Administrator' => 'ROLE_ADMIN', 
+                    'Moderator' => 'ROLE_MODERATOR', 
+                    'User' => 'ROLE_USER'])
                 ->allowMultipleChoices()
                 ->setSortable(false)
                 ->setPermission('ROLE_ADMIN'),

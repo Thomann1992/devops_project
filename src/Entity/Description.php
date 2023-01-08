@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\BlameableEntity;
 use App\Repository\DescriptionRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -9,13 +10,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
-use Gedmo\Blameable\Traits\Blameable;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: DescriptionRepository::class)]
 class Description
 {
-    use Blameable;
+    use BlameableEntity;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

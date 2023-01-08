@@ -11,6 +11,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -39,11 +40,17 @@ class DepartmentCrudController extends AbstractCrudController
                 ->onlyOnDetail(),
             TextField::new('departmentName'),
             AssociationField::new('users')
-                ->setLabel('Total users')
+                ->setLabel('All users')
                 ->setFormTypeOption('by_reference', false),
+            ArrayField::new('users')
+                ->setLabel('Users')
+                ->onlyOnDetail(),
             AssociationField::new('descriptions')
                 ->setLabel('Total descriptions')
                 ->setFormTypeOption('by_reference', false),
+            ArrayField::new('descriptions')
+                ->setLabel('Descriptions')
+                ->onlyOnDetail(),
             Field::new('createdBy')
                 ->onlyOnDetail(),
             Field::new('updatedBy')
@@ -56,12 +63,13 @@ class DepartmentCrudController extends AbstractCrudController
         return parent::configureFilters($filters)
             ->add('id')
             ->add('departmentName')
+            ->add('descriptions')
+            ->add('users')
         ;
     }
 
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
-        // $departments = $this->getUser()->getDepartments();
         $qb = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
         if (!$this->isGranted('ROLE_ADMIN')) {
             $qb

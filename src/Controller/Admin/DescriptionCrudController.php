@@ -20,9 +20,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
+use Symfony\Component\Routing\Annotation\Route;
 
 class DescriptionCrudController extends AbstractCrudController
 {
+    #[Route('/blog', name: 'test')]
     public static function getEntityFqcn(): string
     {
         return Description::class;
@@ -53,7 +55,8 @@ class DescriptionCrudController extends AbstractCrudController
             TextField::new('Name')
                 ->setSortable(true)
                 ->setHelp('This should be the same as the Github repository'),
-            TextareaField::new('description'),
+            TextareaField::new('description')
+            ->setMaxLength(255),
             UrlField::new('URL'),
             UrlField::new('OnePassword', '1password')
                 ->setSortable(true),
